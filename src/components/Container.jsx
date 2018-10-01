@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { displayRowControls, getGroupedControls } from '../helpers/controlsParser';
 import isEmpty from 'lodash/isEmpty';
 import ControlRecordTreeBuilder from 'src/helpers/ControlRecordTreeBuilder';
