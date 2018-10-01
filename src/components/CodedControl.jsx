@@ -124,7 +124,7 @@ CodedControl.propTypes = {
 };
 
 CodedControl.contextTypes = {
-  intl: React.PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
 };
 
 ComponentStore.registerComponent('Coded', CodedControl);
