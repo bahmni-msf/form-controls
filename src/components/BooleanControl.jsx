@@ -78,7 +78,7 @@ BooleanControl.defaultProps = {
 };
 
 BooleanControl.contextTypes = {
-  intl: React.PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
 };
 
 ComponentStore.registerComponent('boolean', BooleanControl);
