@@ -26,7 +26,6 @@ const form = {
           row: 0,
         },
         multiSelect: true,
-        autoComplete: true,
       },
       id: '1',
       concept: {
