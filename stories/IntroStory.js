@@ -30,7 +30,9 @@ const obsList = [
 ];
 
 const form = {
-  id: 'fbc5d897-64e4-4cc1-90a3-47fde7a98026',
+  id: 1,
+  name: 'name',
+  version: '1',
   uuid: 'fbc5d897-64e4-4cc1-90a3-47fde7a98026',
   controls: [
     {
@@ -128,7 +130,7 @@ const form = {
           row: 0,
         },
       },
-      id: '5',
+      id: '4',
       concept: {
         name: 'Coded concept',
         uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
@@ -136,12 +138,12 @@ const form = {
         answers: [
           {
             display: 'Answer1',
-            name: { name: 'Answer1' },
+            name: 'Answer1',
             uuid: 'answer1uuid',
           },
           {
             display: 'Answer2',
-            name: { name: 'Answer2' },
+            name: 'Answer2',
             uuid: 'answer2uuid',
           },
         ],
@@ -184,7 +186,7 @@ const form = {
           row: 0,
         },
       },
-      id: '5',
+      id: '6',
       concept: {
         name: 'Coded concept',
         uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
@@ -207,7 +209,7 @@ const form = {
           row: 0,
         },
       },
-      id: '5',
+      id: '7',
       concept: {
         name: 'Coded concept',
         uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
@@ -215,18 +217,17 @@ const form = {
         answers: [
           {
             display: 'Answer1',
-            name: { name: 'Answer1' },
+            name: 'Answer1',
             uuid: 'answer1uuid',
           },
           {
             display: 'Answer2',
-            name: { name: 'Answer2' },
+            name: 'Answer2',
             uuid: 'answer2uuid',
           },
         ],
       },
     },
-
   ],
 };
 
@@ -257,12 +258,12 @@ const addMoreControl = {
 storiesOf('Forms', module)
     .add('Form1', () =>
         <StoryWrapper json={form}>
-          <Container metadata={form} observations={obsList }
+          <Container collapse metadata={form} observations={obsList} patient={{}}
             translations={{
               labels: {
                 LABEL_1: 'some Label',
               },
-            }} validate={false}
+            }} validate={false} validateForm={false}
           />
         </StoryWrapper>
   );
@@ -279,6 +280,8 @@ storiesOf('ObsControl', module)
           obs={new Obs({ concept: form.controls[0].concept })}
           onValueChanged={(obs, errors) => console.log(obs, errors)}
           showNotification={() => { }}
+          validate={false}
+          validateForm={false}
           value={{}}
         />
         </StoryWrapper>
@@ -294,7 +297,9 @@ storiesOf('ObsControl', module)
           metadata={form.controls[1]}
           obs={new Obs({ concept: form.controls[1].concept })}
           onValueChanged={() => {}}
+          showNotification={() => { }}
           validate={ false }
+          validateForm={ false }
           value={{}}
         />
       </StoryWrapper>
@@ -312,7 +317,9 @@ storiesOf('ObsControl', module)
         onControlRemove={action('remove clicked')}
         onValueChanged={() => {
         }}
+        showNotification={() => { }}
         validate={false}
+        validateForm={ false }
         value={{}}
       />
     </StoryWrapper>
@@ -328,7 +335,9 @@ storiesOf('ObsControl', module)
       metadata={form.controls[2]}
       obs={ new Obs({ concept: form.controls[2].concept })}
       onValueChanged={() => {}}
+      showNotification={() => { }}
       validate={ false }
+      validateForm={ false }
       value={{}}
     />
       </StoryWrapper>
@@ -342,7 +351,9 @@ storiesOf('ObsControl', module)
             metadata={form.controls[3]}
             obs={new Obs({ concept: form.controls[3].concept })}
             onValueChanged={() => {}}
+            showNotification={() => { }}
             validate={ false }
+            validateForm={ false }
             value={{}}
           />
       </StoryWrapper>
@@ -357,7 +368,9 @@ storiesOf('ObsControl', module)
         metadata={form.controls[4]}
         obs={new Obs({ concept: form.controls[4].concept, value: '1999-03-03' })}
         onValueChanged={() => {}}
+        showNotification={() => { }}
         validate={false}
+        validateForm={ false }
         value={{}}
       />
     </StoryWrapper>
@@ -372,7 +385,9 @@ storiesOf('ObsControl', module)
         metadata={form.controls[5]}
         obs={new Obs({ concept: form.controls[5].concept, value: '2016-12-31 14:21' })}
         onValueChanged={() => {}}
+        showNotification={() => { }}
         validate={ false }
+        validateForm={ false }
         value={{}}
       />
     </StoryWrapper>
@@ -386,7 +401,9 @@ storiesOf('ObsControl', module)
         metadata={form.controls[6]}
         obs={new Obs({ concept: form.controls[6].concept })}
         onValueChanged={() => {}}
+        showNotification={() => { }}
         validate={ false }
+        validateForm={ false }
         value={{}}
       />
     </StoryWrapper>

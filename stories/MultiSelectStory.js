@@ -325,10 +325,11 @@ const obsList = [
 storiesOf('Forms', module)
   .add('Multi Select', () =>
     <StoryWrapper json={form}>
-      <Container metadata={form} observations={obsList}
-        validate={ false } translations={{labels: {
+      <Container collapse metadata={form} observations={obsList} patient={{}}
+        translations={{ labels: {
           LABEL_1: 'some Label',
-        }}}
+        } }}
+        validate={ false } validateForm={false}
       />
     </StoryWrapper>
   );
