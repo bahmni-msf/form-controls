@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf,action } from '@kadira/storybook';
+import { action, storiesOf } from '@kadira/storybook';
 import StoryWrapper from './StoryWrapper';
 import { Container } from 'src/components/Container.jsx';
 import { ObsControl } from 'src/components/ObsControl.jsx';
@@ -258,9 +258,11 @@ storiesOf('Forms', module)
     .add('Form1', () =>
         <StoryWrapper json={form}>
           <Container metadata={form} observations={obsList }
-            validate={ false } translations={{labels: {
-              LABEL_1: 'some Label',
-            }}}
+            translations={{
+              labels: {
+                LABEL_1: 'some Label',
+              },
+            }} validate={false}
           />
         </StoryWrapper>
   );
@@ -271,13 +273,13 @@ storiesOf('ObsControl', module)
         <StoryWrapper json={ form.controls[0] }>
         <ObsControl
           errors={[]}
+          formFieldPath="test1.1/1-1"
           formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
           metadata={form.controls[0]}
           obs={new Obs({ concept: form.controls[0].concept })}
           onValueChanged={(obs, errors) => console.log(obs, errors)}
           showNotification={() => { }}
           value={{}}
-          formFieldPath="test1.1/1-1"
         />
         </StoryWrapper>
     ));
@@ -286,13 +288,13 @@ storiesOf('ObsControl', module)
   .add('TextBox Obs Control', () => (
       <StoryWrapper json={form.controls[1]}>
         <ObsControl
+          formFieldPath="test1.1/1-1"
           formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
           mapper = { new ObsMapper() }
           metadata={form.controls[1]}
           obs={new Obs({ concept: form.controls[1].concept })}
           onValueChanged={() => {}}
           validate={ false }
-          formFieldPath="test1.1/1-1"
           value={{}}
         />
       </StoryWrapper>
@@ -301,16 +303,17 @@ storiesOf('ObsControl', module)
   .add('TextBox ObsControl With Add More enabled', () => (
     <StoryWrapper json={form.controls[1]}>
       <ObsControl
-          formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
-          mapper = { new ObsMapper() }
-          metadata={addMoreControl}
-          obs={new Obs({ concept: form.controls[1].concept })}
-          onValueChanged={() => {}}
-          validate={ false }
-          onControlAdd={  action('add clicked')}
-          onControlRemove={ action('remove clicked') }
-          formFieldPath="test1.1/1-1"
-          value={{}}
+        formFieldPath="test1.1/1-1"
+        formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
+        mapper={new ObsMapper()}
+        metadata={addMoreControl}
+        obs={new Obs({ concept: form.controls[1].concept })}
+        onControlAdd={action('add clicked')}
+        onControlRemove={action('remove clicked')}
+        onValueChanged={() => {
+        }}
+        validate={false}
+        value={{}}
       />
     </StoryWrapper>
 ));
@@ -319,13 +322,13 @@ storiesOf('ObsControl', module)
   .add('Boolean Obs Control', () => (
       <StoryWrapper json={form.controls[2]}>
     <ObsControl
+      formFieldPath=""
       formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
       mapper = { new ObsMapper() }
       metadata={form.controls[2]}
       obs={ new Obs({ concept: form.controls[2].concept })}
       onValueChanged={() => {}}
       validate={ false }
-      formFieldPath=""
       value={{}}
     />
       </StoryWrapper>
@@ -346,16 +349,16 @@ storiesOf('ObsControl', module)
   ));
 
 storiesOf('ObsControl', module)
-  .add('Date Obs Control', () =>(
+  .add('Date Obs Control', () => (
     <StoryWrapper json={form.controls[4]}>
       <ObsControl
+        formFieldPath="test1.1/1-1"
         mapper = { new ObsMapper() }
         metadata={form.controls[4]}
         obs={new Obs({ concept: form.controls[4].concept, value: '1999-03-03' })}
         onValueChanged={() => {}}
+        validate={false}
         value={{}}
-        validate={ false }
-         formFieldPath="test1.1/1-1"
       />
     </StoryWrapper>
   ));
@@ -364,13 +367,13 @@ storiesOf('ObsControl', module)
   .add('DateTime Obs Control', () => (
     <StoryWrapper json={form.controls[5]}>
       <ObsControl
+        formFieldPath="test1.1/1-1"
         mapper = { new ObsMapper() }
         metadata={form.controls[5]}
         obs={new Obs({ concept: form.controls[5].concept, value: '2016-12-31 14:21' })}
         onValueChanged={() => {}}
         validate={ false }
         value={{}}
-        formFieldPath="test1.1/1-1"
       />
     </StoryWrapper>
   ));
