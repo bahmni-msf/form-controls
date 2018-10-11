@@ -103,6 +103,9 @@ storiesOf('Section control', module)
       metadata={metadata}
       observations={ [] }
       validate= { true }
+      translations={{labels: {
+        LABEL_1: 'some Label',
+      }}}
     />
 
   </StoryWrapper>

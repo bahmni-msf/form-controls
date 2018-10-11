@@ -326,7 +326,9 @@ storiesOf('Forms', module)
   .add('Multi Select', () =>
     <StoryWrapper json={form}>
       <Container metadata={form} observations={obsList}
-        validate={ false }
+        validate={ false } translations={{labels: {
+          LABEL_1: 'some Label',
+        }}}
       />
     </StoryWrapper>
   );

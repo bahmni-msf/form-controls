@@ -30,9 +30,7 @@ const obsList = [
 ];
 
 const form = {
-  id: 1,
-  name: 'abcd',
-  version: '1',
+  id: 'fbc5d897-64e4-4cc1-90a3-47fde7a98026',
   uuid: 'fbc5d897-64e4-4cc1-90a3-47fde7a98026',
   controls: [
     {
@@ -45,7 +43,6 @@ const form = {
       properties: {
         mandatory: true,
         allowDecimal: false,
-        addMore: true,
         location: {
           column: 0,
           row: 0,
@@ -56,6 +53,7 @@ const form = {
         name: 'Systolic',
         uuid: 'c36e9c8b-3f10-11e4-adec-0800271c1b75',
         datatype: 'Numeric',
+        conceptClass: 'Image',
       },
     },
     {
@@ -115,6 +113,7 @@ const form = {
       },
     },
     {
+      displayType: 'autoComplete',
       type: 'obsControl',
       label: {
         type: 'label',
@@ -123,7 +122,7 @@ const form = {
       properties: {
         mandatory: true,
         notes: false,
-        autoComplete: false,
+        autoComplete: true,
         location: {
           column: 0,
           row: 0,
@@ -137,12 +136,12 @@ const form = {
         answers: [
           {
             display: 'Answer1',
-            name: 'Answer1',
+            name: { name: 'Answer1' },
             uuid: 'answer1uuid',
           },
           {
             display: 'Answer2',
-            name: 'Answer2',
+            name: { name: 'Answer2' },
             uuid: 'answer2uuid',
           },
         ],
@@ -151,64 +150,64 @@ const form = {
     {
       type: 'obsControl',
       label: {
-        id: 'systolic',
         type: 'label',
-        value: 'Systolic',
-      },
-      properties: {
-        mandatory: true,
-        allowDecimal: false,
-        location: {
-          column: 0,
-          row: 0,
-        },
-      },
-      id: '6',
-      concept: {
-        name: 'Systolic',
-        uuid: 'c36e9c8b-3f10-11e4-adec-0800271c1b75',
-        datatype: 'Date',
-      },
-    },
-    {
-      type: 'obsControl',
-      label: {
-        id: 'systolic',
-        type: 'label',
-        value: 'Systolic',
-      },
-      properties: {
-        mandatory: true,
-        allowDecimal: false,
-        location: {
-          column: 0,
-          row: 0,
-        },
-      },
-      id: '7',
-      concept: {
-        name: 'Systolic',
-        uuid: 'c36e9c8b-3f10-11e4-adec-0800271c1b75',
-        datatype: 'DateTime',
-      },
-    },
-    {
-      type: 'obsControl',
-      label: {
-        type: 'label',
-        value: 'Coded concept',
+        value: 'Date',
       },
       properties: {
         mandatory: true,
         notes: false,
-        autoComplete: false,
-        dropDown: true,
+        autoComplete: true,
         location: {
           column: 0,
           row: 0,
         },
       },
-      id: '8',
+      id: '5',
+      concept: {
+        name: 'Coded concept',
+        uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
+        datatype: 'date',
+      },
+    },
+    {
+      type: 'obsControl',
+      label: {
+        type: 'label',
+        value: 'DateTime',
+      },
+      properties: {
+        mandatory: true,
+        notes: false,
+        autoComplete: true,
+        location: {
+          column: 0,
+          row: 0,
+        },
+      },
+      id: '5',
+      concept: {
+        name: 'Coded concept',
+        uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
+        datatype: 'datetime',
+      },
+    },
+    {
+      displayType: 'dropDown',
+      type: 'obsControl',
+      label: {
+        type: 'label',
+        value: 'Coded Concept',
+      },
+      properties: {
+        mandatory: true,
+        notes: false,
+        autoComplete: true,
+        location: {
+          column: 0,
+          row: 0,
+        },
+      },
+      id: '5',
       concept: {
         name: 'Coded concept',
         uuid: 'c2a43174-c990-4e54-8516-17372c83537f',
@@ -216,19 +215,21 @@ const form = {
         answers: [
           {
             display: 'Answer1',
-            name: 'Answer1',
+            name: { name: 'Answer1' },
             uuid: 'answer1uuid',
           },
           {
             display: 'Answer2',
-            name: 'Answer2',
+            name: { name: 'Answer2' },
             uuid: 'answer2uuid',
           },
         ],
       },
     },
+
   ],
 };
+
 
 const addMoreControl = {
   type: 'obsControl',
@@ -257,7 +258,9 @@ storiesOf('Forms', module)
     .add('Form1', () =>
         <StoryWrapper json={form}>
           <Container metadata={form} observations={obsList }
-            validate={ false }
+            validate={ false } translations={{labels: {
+              LABEL_1: 'some Label',
+            }}}
           />
         </StoryWrapper>
   );
@@ -266,14 +269,16 @@ storiesOf('Forms', module)
 storiesOf('ObsControl', module)
     .add('Numeric Obs Control', () => (
         <StoryWrapper json={ form.controls[0] }>
-          <ObsControl
-            formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
-            mapper = { new ObsMapper() }
-            metadata={form.controls[0]}
-            obs={new Obs({ concept: form.controls[0].concept })}
-            onValueChanged={() => {}}
-            validate={ false }
-          />
+        <ObsControl
+          errors={[]}
+          formUuid={'fbc5d897-64e4-4cc1-90a3-47fde7a98026'}
+          metadata={form.controls[0]}
+          obs={new Obs({ concept: form.controls[0].concept })}
+          onValueChanged={(obs, errors) => console.log(obs, errors)}
+          showNotification={() => { }}
+          value={{}}
+          formFieldPath="test1.1/1-1"
+        />
         </StoryWrapper>
     ));
 
@@ -287,6 +292,8 @@ storiesOf('ObsControl', module)
           obs={new Obs({ concept: form.controls[1].concept })}
           onValueChanged={() => {}}
           validate={ false }
+          formFieldPath="test1.1/1-1"
+          value={{}}
         />
       </StoryWrapper>
   )
@@ -302,6 +309,8 @@ storiesOf('ObsControl', module)
           validate={ false }
           onControlAdd={  action('add clicked')}
           onControlRemove={ action('remove clicked') }
+          formFieldPath="test1.1/1-1"
+          value={{}}
       />
     </StoryWrapper>
 ));
@@ -316,6 +325,8 @@ storiesOf('ObsControl', module)
       obs={ new Obs({ concept: form.controls[2].concept })}
       onValueChanged={() => {}}
       validate={ false }
+      formFieldPath=""
+      value={{}}
     />
       </StoryWrapper>
   ));
@@ -329,19 +340,22 @@ storiesOf('ObsControl', module)
             obs={new Obs({ concept: form.controls[3].concept })}
             onValueChanged={() => {}}
             validate={ false }
+            value={{}}
           />
       </StoryWrapper>
   ));
 
 storiesOf('ObsControl', module)
-  .add('Date Obs Control', () => (
+  .add('Date Obs Control', () =>(
     <StoryWrapper json={form.controls[4]}>
       <ObsControl
         mapper = { new ObsMapper() }
         metadata={form.controls[4]}
         obs={new Obs({ concept: form.controls[4].concept, value: '1999-03-03' })}
         onValueChanged={() => {}}
+        value={{}}
         validate={ false }
+         formFieldPath="test1.1/1-1"
       />
     </StoryWrapper>
   ));
@@ -355,6 +369,8 @@ storiesOf('ObsControl', module)
         obs={new Obs({ concept: form.controls[5].concept, value: '2016-12-31 14:21' })}
         onValueChanged={() => {}}
         validate={ false }
+        value={{}}
+        formFieldPath="test1.1/1-1"
       />
     </StoryWrapper>
   ));
@@ -368,6 +384,7 @@ storiesOf('ObsControl', module)
         obs={new Obs({ concept: form.controls[6].concept })}
         onValueChanged={() => {}}
         validate={ false }
+        value={{}}
       />
     </StoryWrapper>
   ));

@@ -15,12 +15,26 @@ module.exports = {
     // your custom plugins
   ],
   module: {
+    devtool: 'source-map',
     loaders: [
       // add your custom loaders.
       {
         test: /\.(scss|css)$/,
         loaders: ["style", "css", "sass"]
-      }
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'base64-inline-loader?name=/styles/images/[name].[ext]',
+      },
+      {
+        test: /\.(js|jsx)$/,
+        loaders: ['babel'],
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
     ],
   },
   resolve: {
