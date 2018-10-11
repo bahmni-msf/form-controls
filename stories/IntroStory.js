@@ -203,7 +203,7 @@ const form = {
       properties: {
         mandatory: true,
         notes: false,
-        autoComplete: true,
+        dropDown: true,
         location: {
           column: 0,
           row: 0,
@@ -317,6 +317,7 @@ storiesOf('ObsControl', module)
         onControlRemove={action('remove clicked')}
         onValueChanged={() => {
         }}
+        showAddMore
         showNotification={() => { }}
         validate={false}
         validateForm={ false }
