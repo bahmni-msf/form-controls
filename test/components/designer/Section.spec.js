@@ -73,6 +73,7 @@ describe('SectionDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
+          onSelect={() => {}}
           wrapper={() => {}}
         />);
     });
@@ -106,6 +107,7 @@ describe('SectionDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
+          onSelect={() => {}}
           wrapper={() => {}}
         />);
 
@@ -136,6 +138,7 @@ describe('SectionDesigner', () => {
           dispatch = {dispatchSpy}
           idGenerator={idGenerator}
           metadata={metadata}
+          onSelect={() => {}}
           wrapper={() => {}}
         />);
       wrapper.find('fieldset').simulate('click', {
