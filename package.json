@@ -62,7 +62,7 @@
     "karma-webpack": "^1.7.0",
     "karma-webpack-with-fast-source-maps": "^1.10.0",
     "mocha": "^2.5.3",
-    "node-sass": "^3.10.1",
+    "node-sass": "^4.5.3",
     "react": "^16.5.2",
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^16.5.2",
