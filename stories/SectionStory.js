@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import { Obs } from 'src/helpers/Obs';
 import '../styles/styles.scss';
 import { NumericBox } from 'src/components/NumericBox.jsx';

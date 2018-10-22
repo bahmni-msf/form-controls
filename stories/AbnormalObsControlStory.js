@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import { ObsGroupControl } from 'src/components/ObsGroupControl.jsx';
 import { ObsGroupMapper } from 'src/mapper/ObsGroupMapper';
 import { Obs } from 'src/helpers/Obs';

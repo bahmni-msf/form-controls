@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { storiesOf, action, linkTo } from '@kadira/storybook';
+import { storiesOf, action, linkTo } from '@storybook/react';
 import Welcome from './Welcome';
 import { ObsMapper } from 'src/helpers/ObsMapper';
 import { TextBox } from 'src/components/TextBox.jsx';

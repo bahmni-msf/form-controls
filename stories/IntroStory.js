@@ -1,5 +1,5 @@
 import React from 'react';
-import { action, storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import StoryWrapper from './StoryWrapper';
 import { Container } from 'src/components/Container.jsx';
 import { ObsControl } from 'src/components/ObsControl.jsx';
@@ -7,6 +7,7 @@ import { ObsMapper } from 'src/mapper/ObsMapper';
 import { Obs } from 'src/helpers/Obs';
 import '../styles/styles.scss';
 import '../node_modules/react-select/dist/react-select.css';
+import { action } from '@storybook/addon-actions';
 import { AutoComplete } from 'src/components/AutoComplete.jsx';
 import { DropDown } from 'src/components/DropDown.jsx';
 import { Date } from 'src/components/Date.jsx';
@@ -227,7 +228,7 @@ const form = {
           },
         ],
       },
-    },
+    }
   ],
 };
 
@@ -255,6 +256,7 @@ const addMoreControl = {
   },
 };
 
+
 storiesOf('Forms', module)
     .add('Form1', () =>
         <StoryWrapper json={form}>
@@ -267,7 +269,6 @@ storiesOf('Forms', module)
           />
         </StoryWrapper>
   );
-
 
 storiesOf('ObsControl', module)
     .add('Numeric Obs Control', () => (
