@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { mount, shallow } from 'enzyme';
 import chaiEnzyme from 'chai-enzyme';
 import chai, { expect } from 'chai';
@@ -8,14 +8,9 @@ import cloneDeep from 'lodash/cloneDeep';
 
 chai.use(chaiEnzyme());
 
-// eslint-disable-next-line react/prefer-stateless-function
-class DummyControl extends Component {
-  render() {
-    return <input />;
-  }
-}
-
 describe('Coded Control Designer', () => {
+  const DummyControl = () => <input />;
+
   let metadata;
   before(() => {
     ComponentStore.registerDesignerComponent('button', { control: DummyControl });

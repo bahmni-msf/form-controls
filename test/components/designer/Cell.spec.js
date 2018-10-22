@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 import chaiEnzyme from 'chai-enzyme';
 import chai, { expect } from 'chai';
@@ -7,18 +7,13 @@ import sinon from 'sinon';
 import { CellDesigner } from 'components/designer/Cell.jsx';
 import { IDGenerator } from 'src/helpers/idGenerator';
 
-// eslint-disable-next-line react/prefer-stateless-function
-class TestComponent extends Component {
-  render() {
-    return <div>TestComponent</div>;
-  }
-}
-
 chai.use(chaiEnzyme());
 
 describe('Cell', () => {
   let eventData;
   const metadata = { id: '123', properties: {} };
+  const TestComponent = () => <div>TestComponent</div>;
+
   before(() => {
     eventData = {
       stopPropagation() {
