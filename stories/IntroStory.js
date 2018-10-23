@@ -12,6 +12,7 @@ import { AutoComplete } from 'src/components/AutoComplete.jsx';
 import { DropDown } from 'src/components/DropDown.jsx';
 import { Date } from 'src/components/Date.jsx';
 import { DateTime } from 'src/components/DateTime.jsx';
+import { ObsControlDesigner } from 'components/designer/ObsControlDesigner.jsx';
 
 const obsList = [
   {
@@ -228,6 +229,10 @@ const form = {
           },
         ],
       },
+    },
+    {
+      id : 8,
+      type: 'obsControl'
     }
   ],
 };
@@ -236,12 +241,13 @@ const form = {
 const addMoreControl = {
   type: 'obsControl',
   label: {
-    id: 'headache',
+    id: 'systolic',
     type: 'label',
-    value: 'Headache',
+    value: 'Systolic',
   },
   properties: {
     mandatory: true,
+    allowDecimal: false,
     addMore: true,
     location: {
       column: 0,
@@ -250,9 +256,10 @@ const addMoreControl = {
   },
   id: '20',
   concept: {
-    name: 'Headache',
+    name: 'Systolic',
     uuid: 'c379aaff-3f10-11e4-adec-0800271c1b75',
-    datatype: 'Text',
+    datatype: 'Numeric',
+    conceptClass: "Image"
   },
 };
 
@@ -410,3 +417,36 @@ storiesOf('ObsControl', module)
       />
     </StoryWrapper>
   ));
+
+storiesOf('Obs Control Designer', module)
+  .add('Without concept', () => (
+    <StoryWrapper json={form.controls[7]}>
+      <ObsControlDesigner
+        clearSelectedControl={() => { }}
+        deleteControl={action('delete-control')}
+        metadata={form.controls[7]}
+        onSelect={action('select-concept')}
+        showDeleteButton={false} />
+    </StoryWrapper>
+  )
+  )
+  .add('With Concept and delete button', () => (
+    <StoryWrapper json={form.controls[0]}>
+      <ObsControlDesigner
+        clearSelectedControl={() => { }}
+        deleteControl={action('delete-control')}
+        metadata={form.controls[0]}
+        onSelect={() => { }}
+        showDeleteButton />
+    </StoryWrapper>
+  )).add('With Concept and addmore enabled', () => (
+    <StoryWrapper json={addMoreControl}>
+      <ObsControlDesigner
+        clearSelectedControl={() => { }}
+        deleteControl={action('delete-control')}
+        metadata={addMoreControl}
+        onSelect={() => { }}
+        showDeleteButton={false} />
+    </StoryWrapper>
+  )
+  )
