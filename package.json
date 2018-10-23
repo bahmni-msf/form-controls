@@ -19,7 +19,8 @@
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook",
     "bump-up": "npm version patch -m 'Bumped to version %s'",
-    "watch": "webpack --watch --config webpack.dev.config.js"
+    "watch": "webpack --watch --config webpack.dev.config.js",
+    "pre-commit": "yarn test"
   },
   "author": "twocpbahmni@thoughtworks.com",
   "devDependencies": {
@@ -49,20 +50,21 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "fetch-mock": "^5.1.2",
     "file-loader": "^0.11.1",
-    "image-webpack-loader": "^3.3.0",
+    "image-webpack-loader": "^4.4.0",
     "isparta-loader": "^2.0.0",
     "json-loader": "^0.5.4",
-    "karma": "^1.1.1",
+    "karma": "^3.1.0",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^1.1.0",
     "karma-jsdom-launcher": "^3.0.0",
     "karma-mocha": "^1.1.1",
     "karma-mocha-reporter": "^2.0.4",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.7.0",
+    "karma-webpack": "^3.0.5",
     "karma-webpack-with-fast-source-maps": "^1.10.0",
-    "mocha": "^2.5.3",
+    "mocha": "^5.2.0",
     "node-sass": "^4.5.3",
+    "pre-commit": "^1.2.2",
     "react": "^15.6.0",
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.6.0",
@@ -74,7 +76,7 @@
     "sinon-stub-promise": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "babel-plugin-react-require": "^3.0.1",

@@ -23,3 +23,17 @@ fi
 " > .git/hooks/pre-push
 
 chmod +x .git/hooks/pre-push
+
+echo "#!/usr/bin/env ruby
+      message_file = ARGV[0]
+      message = File.read(message_file)
+      \$regex = /(^\s*([\w]+)\s*(?:\,)?\s*([\w]*)\s*\|\s*\#\d+\s*\|.*$|.*Merge branch.*)/
+
+      unless \$regex.match(message)
+        puts \"[POLICY] Your message is not formatted correctly\"
+        puts \"Expected Format: Pair1, Pair2 | #cardNumber | Message\"
+    exit 1
+end
+" > .git/hooks/commit-msg
+
+chmod +x .git/hooks/commit-msg
