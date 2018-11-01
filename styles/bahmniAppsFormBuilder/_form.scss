@@ -14,7 +14,27 @@ $lightestGray: #eee;
     .form-field-wrap {
       position: relative;
       margin-top:5px;
-      display:flex;
+      .obs-comment-wrap{
+        display: flex;
+        .obs-empty-block{
+          flex:2;
+        }
+        .obs-comment-content{
+          flex:9;
+          textarea{
+            width:85%;
+          }
+        }
+      }
+      .form-field-content-wrap{
+        display: flex;
+      }
+      .obs-comment-section-wrap{
+        textarea{
+          width: 65%;
+          float: right;
+        }
+      }
       .label-wrap {
         float: left;
         padding-right: 30px;

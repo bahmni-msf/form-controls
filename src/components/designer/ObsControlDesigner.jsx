@@ -119,7 +119,10 @@ export class ObsControlDesigner extends Component {
     const isAddCommentsEnabled = find(properties, (value, key) => (key === 'notes' && value));
     if (isAddCommentsEnabled) {
       return (
-        <CommentDesigner />
+        <div className={classNames('obs-comment-wrap')}>
+          <div className={classNames('obs-empty-block')}></div>
+          <div className={classNames('obs-comment-content')}><CommentDesigner /></div>
+        </div>
       );
     }
     return null;
@@ -181,22 +184,25 @@ export class ObsControlDesigner extends Component {
     if (designerComponent) {
       return (
         <div className="form-field-wrap clearfix"
-          onClick={ (event) => this.props.onSelect(event, metadata) }
+          onClick={(event) => this.props.onSelect(event, metadata)}
         >
-          {this.showDeleteButton()}
-          {this.showScriptButton()}
-          <div className="label-wrap fl">
-            {this.displayLabel()}
-            {this.markMandatory()}
-            {this.showHelperText()}
+          <div className="form-field-content-wrap">
+            {this.showDeleteButton()}
+            {this.showScriptButton()}
+            <div className="label-wrap fl">
+              {this.displayLabel()}
+              {this.markMandatory()}
+              {this.showHelperText()}
+            </div>
+            <div className={classNames('obs-control-field')}>
+              {this.displayObsControl(designerComponent)}
+            </div>
+            {this.showAbnormalButton()}
+            {this.showAddMore()}
           </div>
-          <div className={classNames('obs-control-field')}>
-            {this.displayObsControl(designerComponent)}
-          </div>
-          {this.showAbnormalButton()}
-          {this.showAddMore()}
           {this.showComment()}
         </div>
+
       );
     }
     return (
