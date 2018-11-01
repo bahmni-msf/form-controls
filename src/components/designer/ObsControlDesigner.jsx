@@ -190,7 +190,9 @@ export class ObsControlDesigner extends Component {
             {this.markMandatory()}
             {this.showHelperText()}
           </div>
-          {this.displayObsControl(designerComponent)}
+          <div className={classNames('obs-control-field')}>
+            {this.displayObsControl(designerComponent)}
+          </div>
           {this.showAbnormalButton()}
           {this.showAddMore()}
           {this.showComment()}
