@@ -47,6 +47,7 @@ export class RowDesigner extends Component {
                   setError={this.props.setError}
                   showDeleteButton={ this.props.showDeleteButton }
                   supportedControlTypes = {this.props.supportedControlTypes}
+                  unSupportedProperties={this.props.unSupportedProperties}
                   wrapper={ this.props.wrapper }
                 />);
     }
@@ -81,6 +82,7 @@ RowDesigner.propTypes = {
   setError: PropTypes.func,
   showDeleteButton: PropTypes.bool,
   supportedControlTypes: PropTypes.arrayOf(PropTypes.string),
+  unSupportedProperties: PropTypes.arrayOf(PropTypes.string),
   wrapper: PropTypes.func.isRequired,
 };
 
