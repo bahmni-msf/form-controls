@@ -56,7 +56,8 @@ $lightestGray: #eee;
       .obs-control-field{
         flex:8;
         textarea{
-          width: 95%
+          width: 85%;
+          float:left;
         }
       }
       input {
