@@ -205,6 +205,7 @@ export class ObsControl extends addMoreDecorator(Component) {
     if (registeredComponent) {
       return (
         <div className={ classNames('form-field-wrap clearfix', `${complexClass}`) }>
+          <div className="form-field-content-wrap">
           <div className={ classNames('label-wrap fl', `${addMoreComplexClass}`) }>
             {this.displayLabel()}
             {this.markMandatory()}
@@ -212,9 +213,10 @@ export class ObsControl extends addMoreDecorator(Component) {
           </div>
           <div className= {classNames('obs-control-field')}>
             {this.displayObsControl(registeredComponent)}
+            {this.showAbnormalButton()}
+            {this.showAddMore()}
           </div>
-          {this.showAbnormalButton()}
-          {this.showAddMore()}
+          </div>
           {this.showComment()}
         </div>
       );

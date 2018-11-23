@@ -1,7 +1,6 @@
 $lightestGray: #eee;
 .form-builder-row {
   width: 100%;
-  display: flex;
   .form-builder-column {
     min-height: 50px;
     width: 100%;
@@ -31,8 +30,9 @@ $lightestGray: #eee;
       }
       .obs-comment-section-wrap{
         textarea{
-          width: 65%;
+          width: 69.3%;
           float: right;
+          margin-top: 10px;
         }
       }
       .label-wrap {
@@ -321,8 +321,20 @@ $lightestGray: #eee;
 }
 
 .table-controls{
+  .form-builder-row {
+    display: flex;
+  }
   .form-builder-column{
     border: 1px dotted #BBB;
+    .form-builder-comment-toggle{
+      top: 6px !important;
+      right:22px !important;
+    }
+    .obs-comment-section-wrap{
+      textarea{
+        width:65%;
+      }
+    }
   }
   .header{
     display: flex;
