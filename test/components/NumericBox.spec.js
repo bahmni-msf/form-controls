@@ -48,10 +48,12 @@ describe('NumericBox', () => {
     expect(wrapper.find('input')).to.have.value('50');
   });
 
-  it('should render NumericBox with computed-value class when conceptClass is Computed', () => {
+  it('should render disabled NumericBox with computed-value class' +
+    ' when conceptClass is Computed', () => {
     const wrapper = mount(
       <NumericBox
         conceptClass="Computed"
+        enabled
         formFieldPath="test1.1-0"
         onChange={onChangeSpy}
         validate={false}
@@ -61,6 +63,7 @@ describe('NumericBox', () => {
       />
     );
     expect(wrapper.find('input').props().type).to.be.eql('number');
+    expect(wrapper.find('input').props().disabled).to.be.eql(true);
     expect(wrapper.find('input')).to.have.value('50');
     expect(wrapper.find('input')).to.have.className('computed-value');
   });

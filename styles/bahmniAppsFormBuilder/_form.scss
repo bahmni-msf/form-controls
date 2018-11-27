@@ -94,6 +94,13 @@ $lightestGray: #eee;
           cursor: not-allowed;
         }
       }
+
+      input.computed-value{
+        border: 0;
+        color: #363463;
+        background: #FFFFFF;
+      }
+
       .form-builder-valid-range {
         color: $gray600;
         font-size: 13px;
@@ -548,9 +555,4 @@ $lightestGray: #eee;
   display: inline-block;
   width: 30% !important;
   vertical-align: top;
-}
-
-input.computed-value{
-  border: 0 !important;
-  pointer-events: none;
 }

@@ -125,7 +125,7 @@ export class NumericBox extends Component {
         <input
           className={ classNames({ 'form-builder-error': this.state.hasErrors,
             'computed-value': this.isComputed() }) }
-          disabled={ !this.props.enabled }
+          disabled={ !this.props.enabled || this.isComputed()}
           onChange={ (e) => this.handleChange(e) }
           ref={(elem) => {
             this.input = elem;
