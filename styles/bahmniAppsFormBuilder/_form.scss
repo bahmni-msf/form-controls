@@ -337,18 +337,16 @@ $lightestGray: #eee;
     .form-builder-column{
       border: 1px dotted #BBB;
       .form-field-wrap{
+        .form-field-content-wrap{
+          width: 90.5%;
+        }
         .form-builder-comment-toggle{
           top: 6px ;
-          right:22px;
+          right:4px;
         }
         button.form-builder-comment-button-toggle{
           padding: 1px;
           top: 1px ;
-        }
-        .obs-comment-section-wrap{
-          textarea{
-            width:65%;
-          }
         }
       }
     }
