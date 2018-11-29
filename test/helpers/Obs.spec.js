@@ -284,5 +284,21 @@ describe('Obs', () => {
       const newCreatedObs = result[0];
       expect(newCreatedObs.formFieldPath).to.be.eqls('FormName.1/1-0/2-0');
     });
+
+    it('should filter correct bahmni observations based on parent form fieldpath', () => {
+      const control = { id: '2' };
+      const bahmniObservations = [
+              { formFieldPath: 'FormName.1/1-0/2-0' },
+              { formFieldPath: 'FormName.1/1-0/22-0' },
+      ];
+
+      const parentFormFieldPath = 'FormName.1/1-0';
+      const result = createObsFromControl(formName,
+              formVersion, control, bahmniObservations, parentFormFieldPath);
+
+      expect(result.length).to.be.eqls(1);
+      const newCreatedObs = result[0];
+      expect(newCreatedObs.formFieldPath).to.be.eqls('FormName.1/1-0/2-0');
+    });
   });
 });

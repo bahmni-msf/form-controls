@@ -722,5 +722,24 @@ describe('SectionMapper', () => {
       expect(mapper.getChildren(data).length).to.equal(1);
       expect(mapper.getChildren(data)[0].value).to.equal(2);
     });
+
+    it('should segregate correct obs based on parent form field path prefix', () => {
+      const parentFormFieldPathPrefix = { formFieldPath: 'formName.1/1' };
+      const observations = [{
+        formFieldPath: 'formName.1/1-0/2-0',
+        concept,
+      },
+      {
+        formFieldPath: 'formName.1/11-0',
+        concept,
+      }];
+
+      const initObjectArray =
+        mapper.segregateObsByAddMoreSections(parentFormFieldPathPrefix, observations);
+
+      expect(initObjectArray.length).to.eql(1);
+      expect(initObjectArray[0].length).to.eql(1);
+      expect(initObjectArray[0][0].formFieldPath).to.eql('formName.1/1-0/2-0');
+    });
   });
 });
