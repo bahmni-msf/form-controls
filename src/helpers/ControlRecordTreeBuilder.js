@@ -80,7 +80,7 @@ export const ControlRecord = new Record({
       const childRecord = this.children.map(record => record.voidChildRecords());
       return this.set('children', childRecord);
     }
-    return this.set('value', {});
+    return this.set('value', {}).set('enabled', false);
   },
 
   getErrors() {
