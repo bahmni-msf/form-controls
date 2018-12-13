@@ -13,6 +13,7 @@ export class TableDesigner extends Component {
     this.labelControls = [];
     this.storeGridRef = this.storeGridRef.bind(this);
     this.storeLabelRef = this.storeLabelRef.bind(this);
+    this.storeHeaderRef = this.storeHeaderRef.bind(this);
     this.deleteControl = this.deleteControl.bind(this);
   }
 
@@ -24,11 +25,11 @@ export class TableDesigner extends Component {
       this.labelControls.forEach(
         (labelControl) => {
           controls.push(labelControl.getJsonDefinition());
-        }
-      );
+        });
     }
+    const headerJsonDefinition = this.headerControl && this.headerControl.getJsonDefinition();
     if (metadata) {controls.push(...this.gridRef.getControls());}
-    return Object.assign({}, metadata, { controls });
+    return Object.assign({}, metadata, { controls }, { label: headerJsonDefinition });
   }
 
   storeGridRef(ref) {
@@ -40,6 +41,12 @@ export class TableDesigner extends Component {
   storeLabelRef(ref) {
     if (ref) {
       this.labelControls.push(ref);
+    }
+  }
+
+  storeHeaderRef(ref) {
+    if (ref) {
+      this.headerControl = ref;
     }
   }
 
@@ -71,6 +78,18 @@ export class TableDesigner extends Component {
     );
   }
 
+  displayTableHeader() {
+    const { metadata: { label, id } } = this.props;
+    const data = Object.assign({}, label, { id });
+    return (
+      <LabelDesigner
+        metadata={data}
+        ref={this.storeHeaderRef}
+        showDeleteButton={false}
+      />
+    );
+  }
+
   stopEventPropagation(event) {
     this.props.dispatch();
     event.stopPropagation();
@@ -80,13 +99,14 @@ export class TableDesigner extends Component {
     const { metadata } = this.props;
     const controls = metadata.controls || [];
     return (
-        <fieldset
-          className="form-builder-fieldset"
-          onClick={(event) => {
-            this.stopEventPropagation(event);
-            this.props.onSelect(event, metadata);
-          }}
-        >
+      <fieldset
+        className="form-builder-fieldset"
+        onClick={(event) => {
+          this.stopEventPropagation(event);
+          this.props.onSelect(event, metadata);
+        }}
+      >
+        {this.displayTableHeader()}
         {this.showDeleteButton()}
         <div className="table-controls">
           <div className="header">
