@@ -58,7 +58,12 @@ export class ObsListMapper {
   }
 
   buildObs(record, value, uuid, comment) {
-    const obs = cloneDeep(record.dataSource.obs);
+    const targetValue = record.dataSource.obsList.filter(
+        (obs) => (value && obs.value.uuid === value.uuid &&
+        obs.formFieldPath === record.formFieldPath)
+    );
+    const obs = targetValue.size > 0 ? cloneDeep(targetValue.get(0)) :
+      cloneDeep(record.dataSource.obs);
     obs.uuid = uuid;
     obs.value = value;
     obs.inactive = !record.active;
