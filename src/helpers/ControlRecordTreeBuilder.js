@@ -57,6 +57,16 @@ export const ControlRecord = new Record({
     }
     return value;
   },
+  remove(formFieldPath) {
+    if (this.children) {
+      let updatedChildren = this.children.filter(child => child.formFieldPath !== formFieldPath);
+      if (updatedChildren.size === this.children.size) {
+        updatedChildren = this.children.map((child) => child.remove(formFieldPath));
+      }
+      return this.set('children', updatedChildren);
+    }
+    return this;
+  },
 
   update(formFieldPath, value, errors, isRemoved) {
     if (this.formFieldPath === formFieldPath) {
