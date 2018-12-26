@@ -58,17 +58,37 @@ export const ControlRecord = new Record({
     return value;
   },
   remove(formFieldPath) {
+    var findIfAnyChildHasValues = function(parent){
+      if(parent.getValue()) return true;
+      if(parent.children){
+        for (var i = 0; i < parent.children.size; i++) {
+          if (parent.children.get(i).getValue()) return true;
+          else
+            findIfAnyChildHasValues(parent.children.get(i))
+        }
+      }
+      return false;
+    }
     if (this.children) {
       let updatedChildren = this.children.filter(child => child.formFieldPath !== formFieldPath);
       if (updatedChildren.size === this.children.size) {
         updatedChildren = this.children.map((child) => child.remove(formFieldPath));
       }
+      else{
+        var removedChild = this.children.find(child => child.formFieldPath === formFieldPath);
+        if (findIfAnyChildHasValues(removedChild)) {
+          var voidedChildRecord= removedChild.set('active', false).voidChildRecords()
+          updatedChildren = updatedChildren.insert(updatedChildren.size,voidedChildRecord);
+        }
+      }
       return this.set('children', updatedChildren);
     }
     return this;
   },
+ 
 
   update(formFieldPath, value, errors, isRemoved) {
+    if(!this.active) return null;
     if (this.formFieldPath === formFieldPath) {
       return (Object.keys(value).length === 0 && isRemoved ? this.set('active', false)
           .voidChildRecords() : this)

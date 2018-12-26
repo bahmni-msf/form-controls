@@ -85,17 +85,20 @@ export class Container extends addMoreDecorator(Component) {
   }
 
   onControlRemove(formFieldPath) {
-    this.setState((previousState) => (
+    this.setState((previousState) => {
+      var data = previousState.data.remove(formFieldPath, {}, [], true);
+      return(
       {
         ...previousState,
-        data: previousState.data.update(formFieldPath, {}, [], true),
+        data,
         collapse: undefined,
       }
-    ));
+    )});
   }
 
   getValue() {
     const records = this.state.data;
+    debugger;
     const observations = (new ObservationMapper()).from(records);
     const errors = records.getErrors();
 
