@@ -16,9 +16,11 @@ export class ObsMapper {
 
   getData(record) {
     const obs = cloneDeep(record.dataSource);
-    if (obs.formFieldPath !== record.formFieldPath) {
+    if (obs.formFieldPath !== record.formFieldPath && record.active) {
       obs.uuid = undefined;
       obs.formFieldPath = record.formFieldPath;
+    } else {
+      obs.uuid = record.value && record.value.value ? record.value.value.uuid : undefined;
     }
     let value = record.value.value;
     if (typeof value === 'string') {
@@ -37,7 +39,7 @@ export class ObsMapper {
         obs.voided = obs.value.indexOf('voided') > 0;
       }
     }
-    return (obs.value === undefined && obs.uuid === undefined) ? null : obs;
+    return obs;
   }
 
   getChildren() {

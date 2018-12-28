@@ -67,8 +67,7 @@ export class Container extends addMoreDecorator(Component) {
   }
 
   onControlAdd(formFieldPath, isNotificationShown = true) {
-    const updatedRecordTree = ControlRecordTreeMgr.add(this.state.data, formFieldPath);
-
+    let updatedRecordTree = ControlRecordTreeMgr.add(this.state.data, formFieldPath);
     const addMoreMessage = this.getAddMoreMessage(this.state.data, formFieldPath);
     if (isNotificationShown) {
       this.setState({

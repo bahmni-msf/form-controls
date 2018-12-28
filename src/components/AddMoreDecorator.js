@@ -24,6 +24,7 @@ const addMoreDecorator = Sup => class extends Sup {
   }
 
   onRemoveControl() {
+    console.log("this removed value", this);
     this.props.onControlRemove(this.props.formFieldPath);
   }
 };

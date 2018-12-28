@@ -26,7 +26,6 @@ export const ControlRecord = new Record({
   getControlId() {
     return this.control && this.control.id;
   },
-
   getEventScripts() {
     return this.control && this.control.events;
   },
@@ -58,37 +57,36 @@ export const ControlRecord = new Record({
     return value;
   },
   remove(formFieldPath) {
-    var findIfAnyChildHasValues = function(parent){
-      if(parent.getValue()) return true;
-      if(parent.children){
-        for (var i = 0; i < parent.children.size; i++) {
+    var findIfAnyChildHasValues = function (parent) {
+      if (parent.getValue()) return true;
+      if (parent.children) {
+        for (let i = 0; i < parent.children.size; i++) {
           if (parent.children.get(i).getValue()) return true;
-          else
-            findIfAnyChildHasValues(parent.children.get(i))
+          findIfAnyChildHasValues(parent.children.get(i));
         }
       }
       return false;
-    }
+    };
     if (this.children) {
       let updatedChildren = this.children.filter(child => child.formFieldPath !== formFieldPath);
       if (updatedChildren.size === this.children.size) {
         updatedChildren = this.children.map((child) => child.remove(formFieldPath));
-      }
-      else{
-        var removedChild = this.children.find(child => child.formFieldPath === formFieldPath);
+      } else {
+        const removedChild = this.children.find(child => child.formFieldPath === formFieldPath);
+        console.log(removedChild,'removed child');
         if (findIfAnyChildHasValues(removedChild)) {
-          var voidedChildRecord= removedChild.set('active', false).voidChildRecords()
-          updatedChildren = updatedChildren.insert(updatedChildren.size,voidedChildRecord);
+          const voidedChildRecord = removedChild.set('active', false).voidChildRecords();
+          updatedChildren = updatedChildren.insert(updatedChildren.size, voidedChildRecord);
         }
       }
       return this.set('children', updatedChildren);
     }
     return this;
   },
- 
+
 
   update(formFieldPath, value, errors, isRemoved) {
-    if(!this.active) return null;
+    if (!this.active) return null;
     if (this.formFieldPath === formFieldPath) {
       return (Object.keys(value).length === 0 && isRemoved ? this.set('active', false)
           .voidChildRecords() : this)
@@ -108,9 +106,29 @@ export const ControlRecord = new Record({
   voidChildRecords() {
     if (this.children) {
       const childRecord = this.children.map(record => record.voidChildRecords());
-      return this.set('children', childRecord);
+      return this.set('children', childRecord).set('value', {}).set('active', false);
     }
-    return this.set('value', {}).set('errors', []);
+    return this.set('value', {}).set('errors', []).set('active', false);
+  },
+
+  voidChildRecordUuids() {
+    console.log(this.formFieldPath, this.value, this, 'voiding');
+    if (this.children) {
+      const childRecord = this.children.map(record => record.voidChildRecordUuids());
+      let newDataSource = this.dataSource;
+      if (this.dataSource && !this.dataSource.obsList && this.active) {
+        newDataSource = this.dataSource.set('uuid', undefined);
+      }
+      console.log('voided', this.formFieldPath, this.active);
+      return this.set('children', childRecord).set('dataSource', newDataSource);
+    }
+    let newDataSource = this.dataSource;
+    if (this.dataSource && this.active) {
+      this.dataSource.uuid = undefined;
+      newDataSource = this.dataSource;
+    }
+    console.log('voided', this.formFieldPath, this.active);
+    return this.set('dataSource', newDataSource);
   },
 
   getErrors() {

@@ -77,7 +77,7 @@ export default class ControlRecordTreeMgr {
     const getPrefix = (formFieldPath) =>
         (formFieldPath.substring(0, formFieldPath.lastIndexOf('-')));
 
-    if (getPrefix(parentTree.formFieldPath) === getPrefix(targetFormFieldPath)) {
+    if (getPrefix(parentTree.formFieldPath) === getPrefix(targetFormFieldPath) && parentTree.active) {
       brotherTrees.push(parentTree);
     }
 
@@ -93,7 +93,11 @@ export default class ControlRecordTreeMgr {
   static add(rootTree, formFieldPath) {
     const treeMgr = new ControlRecordTreeMgr();
     const parentTree = treeMgr.findParentTree(rootTree, formFieldPath);
-    const addedTree = treeMgr.generateNextTree(rootTree, formFieldPath);
+    debugger;
+    let addedTree = treeMgr.generateNextTree(rootTree, formFieldPath);
+    console.log(JSON.stringify(addedTree), 'addedtreeold');
+    addedTree = addedTree.voidChildRecordUuids();
+    console.log(JSON.stringify(addedTree), 'addedtreenew');
     return treeMgr.addToRootTree(rootTree, parentTree, addedTree);
   }
 

@@ -3,7 +3,7 @@ import chaiEnzyme from 'chai-enzyme';
 import chai, { expect } from 'chai';
 import ControlRecordTreeBuilder from 'src/helpers/ControlRecordTreeBuilder';
 import { ControlRecord } from 'src/helpers/ControlRecordTreeBuilder';
-
+import { ObsList } from 'src/helpers/ObsList';
 chai.use(chaiEnzyme());
 
 describe('ControlRecordTreeBuilder', () => {
@@ -517,6 +517,7 @@ describe('ControlRecordTreeBuilder', () => {
     expect(updatedRecordTree.children.size).to.equal(1);
   });
 
+
   it('should return the new tree by removing a nested child that matches the form field' +
     ' path', () => {
     const obsConcept = {
@@ -605,5 +606,156 @@ describe('ControlRecordTreeBuilder', () => {
     const updatedRecordTree = rootRecordTree.remove(formFieldPath1of1);
     expect(updatedRecordTree.children.size).to.equal(2);
     expect(updatedRecordTree.children.get(0).children.size).to.equal(1);
+  });
+
+  it.only('should make the child record datasoruce obslist uuid to ' +
+      'undefined when 2 level hierarchy present', () => {
+    const obsConcept = {
+      answers: [],
+      datatype: 'Numeric',
+      description: [],
+      hiAbsolute: null,
+      hiNormal: null,
+      lowAbsolute: null,
+      lowNormal: null,
+      name: 'TestObs',
+      properties: {
+        allowDecimal: false,
+      },
+      units: null,
+      uuid: 'd0490af4-72eb-4090-9b43-ac3487ba7474',
+    };
+    const control = {
+      concept: obsConcept,
+      hiAbsolute: null,
+      hiNormal: null,
+      id: '4',
+      label: {
+        type: 'label',
+        value: 'TestObs',
+      },
+      lowAbsolute: null,
+      lowNormal: null,
+      properties: {
+        addMore: true,
+        hideLabel: false,
+        location: {
+          column: 0,
+          row: 0,
+        },
+        mandatory: false,
+        notes: false,
+      },
+      type: 'obsControl',
+      units: null,
+    };
+
+    const obsRecordTreeOne = new ControlRecord({
+      control,
+      formFieldPath: 'AddMoreForm.3/2-0/1-0/1-0',
+      value: {},
+      active: true,
+      dataSource: {
+        concept: obsConcept,
+        formFieldPath: 'AddMoreForm.3/2-0/1-0/1-0',
+        formNamespace: 'Bahmni',
+        voided: true,
+        obsList: List.of({
+          uuid: 'uuid1',
+        }),
+      },
+    });
+
+    const obsRecordTreeTwo = new ControlRecord({
+      control,
+      formFieldPath: 'AddMoreForm.3/2-0/1-0/2-0',
+      value: {},
+      active: true,
+      dataSource: {
+        concept: obsConcept,
+        formFieldPath: 'AddMoreForm.3/2-0/1-0/2-0',
+        formNamespace: 'Bahmni',
+        voided: true,
+        obsList: List.of({
+          uuid: 'uuid2',
+        }),
+      },
+    });
+    const sectionRecordTree = new ControlRecord({ children: List.of(obsRecordTreeOne, obsRecordTreeTwo),
+      formFieldPath: 'AddMoreForm.3/2-0/1-0' });
+    let rootSectionRecordTree = new ControlRecord({ children: List.of(sectionRecordTree),
+      formFieldPath: 'AddMoreForm.3/2-0' });
+
+    expect(rootSectionRecordTree.children.get(0).children.get(0).dataSource.obsList.get(0).uuid).to.equal('uuid1');
+    expect(rootSectionRecordTree.children.get(0).children.get(1).dataSource.obsList.get(0).uuid).to.equal('uuid2');
+    rootSectionRecordTree = rootSectionRecordTree.voidChildRecordUuids();
+    expect(rootSectionRecordTree.children.get(0).children.get(0).dataSource.uuid).to.equal(undefined);
+    expect(rootSectionRecordTree.children.get(0).children.get(1).dataSource.uuid).to.equal(undefined);
+  });
+
+  it('should make the child record datasoruce obslist uuid to ' +
+      'undefined when 1 level hierarchy present', () => {
+    const obsConcept = {
+      answers: [],
+      datatype: 'Numeric',
+      description: [],
+      hiAbsolute: null,
+      hiNormal: null,
+      lowAbsolute: null,
+      lowNormal: null,
+      name: 'TestObs',
+      properties: {
+        allowDecimal: false,
+      },
+      units: null,
+      uuid: 'd0490af4-72eb-4090-9b43-ac3487ba7474',
+    };
+    const control = {
+      concept: obsConcept,
+      hiAbsolute: null,
+      hiNormal: null,
+      id: '4',
+      label: {
+        type: 'label',
+        value: 'TestObs',
+      },
+      lowAbsolute: null,
+      lowNormal: null,
+      properties: {
+        addMore: true,
+        hideLabel: false,
+        location: {
+          column: 0,
+          row: 0,
+        },
+        mandatory: false,
+        notes: false,
+      },
+      type: 'obsControl',
+      units: null,
+    };
+
+    const obsRecordTree = new ControlRecord({
+      control,
+      formFieldPath: 'AddMoreForm.3/2-0/1-0',
+      value: {},
+      active: true,
+      dataSource: {
+        concept: obsConcept,
+        formFieldPath: 'AddMoreForm.3/2-0/1-0',
+        formNamespace: 'Bahmni',
+        voided: true,
+        obsList: List.of({
+          uuid: 'uuid',
+        }),
+      },
+    });
+    let sectionRecordTree = new ControlRecord({ children: List.of(obsRecordTree),
+      formFieldPath: 'AddMoreForm.3/2-0' });
+    console.log(JSON.stringify(sectionRecordTree));
+    expect(sectionRecordTree.children.get(0).dataSource.obsList.get(0).uuid).to.equal('uuid');
+    sectionRecordTree = sectionRecordTree.voidChildRecordUuids();
+    console.log(JSON.stringify(sectionRecordTree.children.get(0)));
+    expect(sectionRecordTree.children.get(0).dataSource.uuid).to.equal(undefined);
   });
 });
