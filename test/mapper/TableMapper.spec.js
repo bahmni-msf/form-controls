@@ -6,6 +6,7 @@ import { createFormNamespaceAndPath } from 'src/helpers/formNamespace';
 import { getKeyPrefixForControl } from '../../src/helpers/formNamespace';
 import { ControlRecord } from '../../src/helpers/ControlRecordTreeBuilder';
 import { List } from 'immutable';
+import { Obs } from 'src/helpers/Obs';
 
 chai.use(chaiEnzyme());
 
@@ -143,13 +144,13 @@ describe('TableMapper', () => {
         formFieldPath: 'section.1/3-0',
         value: { value: '2', comment: undefined },
         active: true,
-        dataSource: {
+        dataSource: new Obs({
           concept: {
             name: 'HEIGHT',
             uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAA',
           }, formNamespace: 'Bahmni',
           formFieldPath: 'section.1/3-0',
-        },
+        }),
       });
 
       const records = new ControlRecord({
