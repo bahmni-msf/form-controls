@@ -19,6 +19,7 @@ export const ControlRecord = new Record({
   showRemove: false,
   errors: [],
   dataSource: undefined,
+  voided: false,
   getObject() {
     return this.mapper.getObject(this.obs);
   },
@@ -58,11 +59,39 @@ export const ControlRecord = new Record({
     return value;
   },
   remove(formFieldPath) {
+    var findIfNodeHasDataSourceWithValueInDatabase = function (parent) {
+      if (parent.dataSource.uuid
+        || (parent.dataSource.obsList &&
+          parent.dataSource.obsList.find(o => o.uuid !== undefined))) return true;
+
+      if (parent.children) {
+        for (let i = 0; i < parent.children.size; i++) {
+          if (parent.children.get(i).dataSource.uuid
+            || (parent.children.get(i).dataSource.obsList &&
+              parent.children.get(i).dataSource.obsList.find(o => o.uuid !== undefined))) return true;
+          findIfNodeHasDataSourceWithValueInDatabase(parent.children.get(i));
+        }
+      }
+
+      return false;
+    };
     if (this.children) {
       let updatedChildren = this.children.filter(child => child.formFieldPath !== formFieldPath);
       if (updatedChildren.size === this.children.size) {
         updatedChildren = this.children.map((child) => child.remove(formFieldPath));
+      } else {
+        const removedChild = this.children.find(child => child.formFieldPath === formFieldPath);
+        if (findIfNodeHasDataSourceWithValueInDatabase(removedChild) && removedChild) {
+          let voidedChildRecord = removedChild.set('active', false).set('voided', true).voidChildRecords();
+          if (voidedChildRecord.dataSource.obsList) {
+            const newDataSource = voidedChildRecord.dataSource.set('obsList',
+              voidedChildRecord.dataSource.obsList.map(o => o.set('voided', true)));
+            voidedChildRecord = voidedChildRecord.set('dataSource', newDataSource);
+          }
+          updatedChildren = updatedChildren.insert(updatedChildren.size, voidedChildRecord);
+        }
       }
+
       return this.set('children', updatedChildren);
     }
     return this;
@@ -90,9 +119,52 @@ export const ControlRecord = new Record({
       const childRecord = this.children.map(record => record.voidChildRecords());
       return this.set('children', childRecord);
     }
-    return this.set('value', {}).set('errors', []);
+    return this.set('errors', []).set('voided', true);
   },
-
+  voidChildRecordUuidOld() {
+    if (this.children) {
+      const childRecord = this.children.map(record => record.voidChildRecordUuids());
+      let newDataSource = this.dataSource;
+      if (this.dataSource && this.dataSource.set && !this.dataSource.obsList && this.active) {
+        newDataSource = this.dataSource.set('uuid', undefined);
+      } else if (this.dataSource && this.active) {
+        newDataSource = Object.assign({}, this.dataSource, { uuid: undefined });
+      }
+      return this.set('children', childRecord).set('dataSource', newDataSource);
+    }
+    let newDataSource = this.dataSource;
+    if (this.dataSource && this.active) {
+      newDataSource = this.dataSource.uuid ? Object.assign({}, this.dataSource, { uuid: undefined }) : this.dataSource;
+      if (this.dataSource.obsList) {
+        const newObsList = this.dataSource.obsList.map((ol) => Object.assign({}, ol, { uuid: undefined }));
+        newDataSource = this.dataSource.set('obsList', newObsList);
+      }
+    }
+    const finalThis = this.set('dataSource', newDataSource);
+    console.log(JSON.stringify(finalThis), 'finalthis');
+    return finalThis;
+  },
+  voidChildRecordUuids() {
+    if (this.dataSource && this.active) {
+      let newRecord = this;
+      if (this.dataSource.uuid) {
+        const newDataSource = this.dataSource.set('uuid', undefined);
+        newRecord = this.set('dataSource', newDataSource);
+      }
+      if (this.dataSource.obsList) {
+        const newObsList = this.dataSource.obsList.map((ol) => ol.set('uuid', undefined)
+        );
+        const newDataSource = this.dataSource.set('obsList', newObsList);
+        newRecord = this.set('dataSource', newDataSource);
+      }
+      if (this.children) {
+        const newChildren = this.children.map(child => child.voidChildRecordUuids());
+        newRecord = newRecord.set('children', newChildren);
+      }
+      return newRecord;
+    }
+    return this;
+  },
   getErrors() {
     const errorArray = [];
     const errors = this.get('errors');

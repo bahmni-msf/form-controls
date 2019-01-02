@@ -4,6 +4,7 @@ import chai, { expect } from 'chai';
 import { ControlRecord } from '../../src/helpers/ControlRecordTreeBuilder';
 import ObservationMapper from '../../src/helpers/ObservationMapper';
 import { ObsList } from 'src/helpers/ObsList';
+import { Map as ImmutableMap } from 'immutable';
 
 chai.use(chaiEnzyme());
 
@@ -18,13 +19,13 @@ describe('ObservationMapper', () => {
     },
     uuid: 'c2a43174-c9db-4e54-8516-17372c83537f',
   };
-  const obsDataSource = {
+  const obsDataSource = ImmutableMap({
     concept: obsConcept,
     formFieldPath: obsFormFieldPath,
     formNamespace: 'Bahmni',
     uuid: 'someUuid',
     voided: true,
-  };
+  });
   const obsControl = {
     concept: obsConcept,
     hiAbsolute: null,
@@ -71,11 +72,11 @@ describe('ObservationMapper', () => {
     type: 'label',
     value: 'This is label test',
   };
-  const labelDataSource = {
+  const labelDataSource = ImmutableMap({
     formFieldPath: labelFormFieldPath,
     formNamespace: 'Bahmni',
     voided: true,
-  };
+  });
 
   it('should get obs exclude record that is voided and doesn\'t have concept', () => {
     const obsRecord = new ControlRecord({
@@ -346,12 +347,12 @@ describe('ObservationMapper', () => {
     const obsListDataSource = new ObsList({
       obsList: new List(),
       formFieldPath: obsListFormFieldPath,
-      obs: {
+      obs: ImmutableMap({
         concept: obsListConcept,
         formFieldPath: obsListFormFieldPath,
         formNamespace: 'Bahmni',
         voided: true,
-      } });
+      }) });
     const obsListValue = {
       value: [
         {
@@ -460,13 +461,13 @@ describe('ObservationMapper', () => {
         units: '/min',
       },
       formFieldPath: activeFormFieldPath,
-      dataSource: {
+      dataSource: ImmutableMap({
         concept: singleObsConcept,
         formFieldPath: activeFormFieldPath,
         formNamespace: 'Bahmni',
         uuid: 'someUuud',
         voided: true,
-      },
+      }),
     });
     const inactiveFormFieldPath = 'SingleObs.1/1-1';
     const inactiveObsRecordTree = new ControlRecord({
@@ -495,12 +496,12 @@ describe('ObservationMapper', () => {
         units: '/min',
       },
       formFieldPath: inactiveFormFieldPath,
-      dataSource: {
+      dataSource: ImmutableMap({
         concept: singleObsConcept,
         formFieldPath: activeFormFieldPath,
         formNamespace: 'Bahmni',
         voided: true,
-      },
+      }),
       active: false,
     });
     const rootRecordTree = new ControlRecord({

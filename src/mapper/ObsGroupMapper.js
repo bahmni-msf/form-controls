@@ -67,7 +67,7 @@ export class ObsGroupMapper {
   }
 
   getData(record) {
-    const obsGroup = cloneDeep(record.dataSource);
+    const obsGroup = cloneDeep(record.dataSource).toJS();
     if (obsGroup.formFieldPath !== record.formFieldPath) {
       obsGroup.uuid = undefined;
       obsGroup.formFieldPath = record.formFieldPath;

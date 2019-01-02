@@ -5,6 +5,7 @@ import { createFormNamespaceAndPath, getKeyPrefixForControl } from 'src/helpers/
 import flattenDeep from 'lodash/flattenDeep';
 import ObservationMapper from '../helpers/ObservationMapper';
 import { isAnyAncestorOrControlHasAddMore } from 'src/helpers/ControlUtil';
+import { Obs } from '../helpers/Obs';
 
 export class SectionMapper {
 
@@ -16,7 +17,9 @@ export class SectionMapper {
 
   _getInitialObjectInternal(formName, formVersion, control, bahmniObservations,
                             parentFormFieldPath) {
-    const obsList = bahmniObservations || new List();
+    const obsList = bahmniObservations ? bahmniObservations.map(obs => new Obs({
+      ...obs,
+    })) : new List();
 
     if (isAnyAncestorOrControlHasAddMore(control, parentFormFieldPath)
         && !_.isEmpty(bahmniObservations)) {
