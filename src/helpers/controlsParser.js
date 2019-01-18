@@ -15,6 +15,10 @@ function createReactComponent(component, props) {
   return React.createElement(component, props);
 }
 
+function sortRecordByFormFieldPath(records) {
+  return sortBy(records, (record) => record.formFieldPath);
+}
+
 export function setupAddRemoveButtonsForAddMore(records) {
   return records.map((record, index) =>
     record.set('showRemove', index > 0).set('showAddMore', index === records.length - 1));
@@ -73,7 +77,7 @@ export function displayRowControls(controls, records, childProps, isInTable = fa
       id={index}
       isInTable={isInTable}
       key={index}
-      records={records}
+      records={sortRecordByFormFieldPath(records)}
       {...childProps}
     />
   );
