@@ -16,7 +16,7 @@ function createReactComponent(component, props) {
 }
 
 function sortRecordByFormFieldPath(records) {
-  return sortBy(records, (record) => record.formFieldPath);
+  return sortBy(records, record => record.formFieldPath);
 }
 
 export function setupAddRemoveButtonsForAddMore(records) {
