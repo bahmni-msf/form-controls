@@ -96,14 +96,15 @@ export const ControlRecord = new Record({
 
   update(formFieldPath, value, errors) {
     if (this.formFieldPath === formFieldPath) {
-      return this
-        .set('value', value)
-        .set('errors', errors);
+      return this.set('value', value).set('errors', errors);
     }
 
     if (this.children) {
       const childRecord = this.children.map(
-        r => r.update(formFieldPath, value, errors) || r
+        (r) => {
+          const updatedValue = r.update(formFieldPath, value, errors);
+          return updatedValue || r;
+        }
       );
       return this.set('children', childRecord);
     }
