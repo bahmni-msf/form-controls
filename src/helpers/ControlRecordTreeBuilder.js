@@ -6,6 +6,7 @@ import ValueMapperStore from './ValueMapperStore';
 import { isAnyAncestorOrControlHasAddMore,
     getCurrentFormFieldPathIfAddMore } from 'src/helpers/ControlUtil';
 import { Obs } from './Obs';
+import _ from 'lodash';
 
 export const ControlRecord = new Record({
   valueMapper: undefined,
@@ -103,7 +104,7 @@ export const ControlRecord = new Record({
       const childRecord = this.children.map(
           (r) => {
             const updatedValue = r.update(formFieldPath, value, errors);
-            return _.isNil(updatedValue)? r : updatedValue;
+            return _.isNil(updatedValue) ? r : updatedValue;
           }
         );
       return this.set('children', childRecord);
