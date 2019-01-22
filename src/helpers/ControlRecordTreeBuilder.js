@@ -101,10 +101,11 @@ export const ControlRecord = new Record({
 
     if (this.children) {
       const childRecord = this.children.map(
-        (r) => {
-          const updatedValue = r.update(formFieldPath, value, errors);
-          return updatedValue || r;
-        });
+          (r) => {
+            const updatedValue = r.update(formFieldPath, value, errors);
+            return _.isNil(updatedValue)? r : updatedValue;
+          }
+        );
       return this.set('children', childRecord);
     }
     return null;
