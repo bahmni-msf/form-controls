@@ -104,8 +104,7 @@ export const ControlRecord = new Record({
         (r) => {
           const updatedValue = r.update(formFieldPath, value, errors);
           return updatedValue || r;
-        }
-      );
+        });
       return this.set('children', childRecord);
     }
     return null;
