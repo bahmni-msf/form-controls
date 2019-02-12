@@ -121,7 +121,7 @@ export class TableDesigner extends Component {
             minRows={2}
             ref={this.storeGridRef}
             showDeleteButton
-            supportedControlTypes={['obsControl']}
+            supportedControlTypes={['obsControl', 'obsGroupControl']}
             unsupportedProperties={['addMore']}
             wrapper={this.props.wrapper}
           />

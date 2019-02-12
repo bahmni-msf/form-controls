@@ -283,7 +283,7 @@ describe('TableDesigner', () => {
       expect(wrapper).to.have.descendants('GridDesigner');
       const grid = wrapper.find('GridDesigner');
       expect(grid.prop('unsupportedProperties')).to.eql(['addMore']);
-      expect(grid.prop('supportedControlTypes')).to.eql(['obsControl']);
+      expect(grid.prop('supportedControlTypes')).to.include.members(['obsControl']);
     });
   });
 });
