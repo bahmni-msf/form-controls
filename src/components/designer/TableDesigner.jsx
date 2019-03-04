@@ -140,6 +140,11 @@ export class TableDesigner extends Component {
             {this.displayColumnHeaders(columnHeaders)}
           </div>
           <GridDesigner
+            updateControlDroppedStatus={this.props.updateControlDroppedStatus}
+            isControlDropped={this.props.isControlDropped}
+            isBeingDragged={this.props.isBeingDragged}
+            dragSource ={this.props.dragSource}
+            onDragDropComplete={this.props.onDragDropComplete}
             controls={controls}
             idGenerator={this.props.idGenerator}
             minColumns={NO_OF_TABLE_COLUMNS}

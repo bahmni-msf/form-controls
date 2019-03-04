@@ -38,8 +38,12 @@ export class RowDesigner extends Component {
                 <CellDesigner
                   cellData={ get(this.cellData, i, []) }
                   dragAllowed={ this.props.dragAllowed }
+                  dragSource ={this.props.dragSource}
                   idGenerator={ this.props.idGenerator }
                   key={i}
+                  isControlDropped={this.props.isControlDropped}
+                  updateControlDroppedStatus={this.props.updateControlDroppedStatus}
+                  isBeingDragged={this.props.isBeingDragged}
                   location={{ column: i, row: this.props.rowPosition }}
                   onChange={ this.changeHandler }
                   onControlDrop={this.props.onControlDrop}
@@ -47,6 +51,7 @@ export class RowDesigner extends Component {
                   setError={this.props.setError}
                   showDeleteButton={ this.props.showDeleteButton }
                   wrapper={ this.props.wrapper }
+                  onDragDropComplete={this.props.onDragDropComplete}
                 />);
     }
     return cells;

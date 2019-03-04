@@ -43,7 +43,12 @@ export class GridDesigner extends Component {
         <RowDesigner
           columns={this.props.minColumns}
           dragAllowed={this.props.dragAllowed}
+          dragSource ={this.props.dragSource}
           idGenerator={this.props.idGenerator}
+          isControlDropped={this.props.isControlDropped}
+          updateControlDroppedStatus={this.props.updateControlDroppedStatus}
+          onDragDropComplete={this.props.onDragDropComplete}
+          isBeingDragged={this.props.isBeingDragged}
           key={i}
           onChange={this.changeHandler}
           onControlDrop={this.props.onControlDrop}

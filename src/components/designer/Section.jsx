@@ -97,6 +97,11 @@ export class SectionDesigner extends Component {
             <Grid
               controls={ controls }
               idGenerator={this.props.idGenerator}
+              updateControlDroppedStatus={this.props.updateControlDroppedStatus}
+              isControlDropped={this.props.isControlDropped}
+              isBeingDragged={this.props.isBeingDragged}
+              dragSource ={this.props.dragSource}
+              onDragDropComplete={this.props.onDragDropComplete}
               minRows={2}
               ref={ this.storeGridRef }
               showDeleteButton

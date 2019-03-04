@@ -32,7 +32,7 @@ export class DropTarget extends Component {
 
   notifyMove(e, context) {
     if (e.dataTransfer && e.dataTransfer.dropEffect !== 'none') {
-      this.processMove(context);
+      // this.processMove(context);
     }
   }
 

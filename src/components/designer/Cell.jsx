@@ -25,6 +25,15 @@ export class CellDesigner extends DropTarget {
     this._setActiveClass(false);
   }
 
+  componentWillReceiveProps(nextProps){
+    if(nextProps.dragSource && nextProps.isControlDropped && !nextProps.isBeingDragged) {
+      console.log('called')
+      nextProps.dragSource.dragSource.processMove(nextProps.dragSource.metadata);
+      this.props.updateControlDroppedStatus(false);
+      this.props.onDragDropComplete();
+    }
+  }
+
   deleteControl(controlId) {
     const newStateData = this.state.data.filter((control) => control.id !== controlId);
     this.setState({ data: newStateData });
@@ -54,6 +63,11 @@ export class CellDesigner extends DropTarget {
   processDrop(metadata) {
     const { data } = this.state;
     const { onControlDrop } = this.props;
+    console.log('isBeing Dropped',this.props.isBeingDragged)
+    if(this.props.isBeingDragged){
+      this.props.onDragDropComplete();
+      return;
+    }
     const successCallback = (dropControlMetadata) => {
       if (this.props.dragAllowed === false) {
         return;
@@ -71,6 +85,7 @@ export class CellDesigner extends DropTarget {
       dataClone.push(metadataClone);
       this.changeHandler(this.cellPosition);
       this.className = classNames('form-builder-column', { active: false });
+      this.props.updateControlDroppedStatus(true);
       this.setState({ data: dataClone });
     };
 
@@ -102,6 +117,11 @@ export class CellDesigner extends DropTarget {
                 deleteControl: this.deleteControl,
                 setError: this.props.setError,
                 showDeleteButton: this.props.showDeleteButton,
+                dragSource: this.props.dragSource,
+                isControlDropped: this.props.isControlDropped,
+                updateControlDroppedStatus: this.props.updateControlDroppedStatus,
+                isBeingDragged : this.props.isBeingDragged,
+                onDragDropComplete: this.props.onDragDropComplete
               }
             )
         );
