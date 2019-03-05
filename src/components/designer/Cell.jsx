@@ -26,7 +26,7 @@ export class CellDesigner extends DropTarget {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.dragSource && nextProps.isControlDropped && !nextProps.isBeingDragged) {
+    if(nextProps.dragSource && nextProps.isControlDropped) {
       console.log('called')
       nextProps.dragSource.dragSource.processMove(nextProps.dragSource.metadata);
       this.props.updateControlDroppedStatus(false);
