@@ -1,6 +1,6 @@
 {
   "name": "bahmni-form-controls-dwb",
-  "version": "0.91.51",
+  "version": "0.91.52",
   "description": "Repository for form controls",
   "license": "GPL-2.0",
   "main": "./dist/bundle.js",
