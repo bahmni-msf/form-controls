@@ -276,6 +276,8 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
+          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
+            onSuccessfulControlDrop()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
@@ -292,6 +294,8 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
+          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
+            onSuccessfulControlDrop()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
@@ -308,6 +312,8 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
+          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
+            onSuccessfulControlDrop()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
