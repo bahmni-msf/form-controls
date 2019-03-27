@@ -304,6 +304,29 @@ describe('TableDesigner', () => {
       sinon.assert.notCalled(processDropSuccessCallback);
     });
 
+    it('should update metadata of drag source cell when drop is not allowed ', () => {
+      const dragSourceCell = {
+        updateMetadata: sinon.spy(),
+      };
+      wrapper = shallow(
+        <TableDesigner
+          clearSelectedControl={() => {}}
+          deleteControl={() => {}}
+          dispatch={() => {}}
+          dragSourceCell={dragSourceCell}
+          idGenerator={idGenerator}
+          metadata={metadata}
+          onControlDrop ={ ({ successCallback }) => successCallback()}
+          onSelect={() => {}}
+          wrapper={() => {}}
+        />);
+      const processDropSuccessCallback = sinon.spy();
+      wrapper.instance().handleControlDrop({ metadata: { type: 'section' }, cellMetadata: [],
+        successCallback: processDropSuccessCallback });
+      sinon.assert.notCalled(processDropSuccessCallback);
+      sinon.assert.calledOnce(dragSourceCell.updateMetadata);
+    });
+
     it('should not allow more than one control to be dropped in a cell', () => {
       wrapper = shallow(
         <TableDesigner

@@ -115,11 +115,14 @@ export class TableDesigner extends Component {
   }
 
   handleControlDrop({ metadata, cellMetadata, successCallback, dropCell }) {
+    const dragSourceCell = this.props.dragSourceCell;
     function onSuccessfulControlDrop() {
       const hasOnlySupportedControlTypes = supportedControlTypes.includes(metadata.type);
       const hasNoElementInCell = cellMetadata.length === 0;
       if (hasOnlySupportedControlTypes && hasNoElementInCell) {
         successCallback(Object.assign({}, metadata, { unsupportedProperties }));
+      } else if (dragSourceCell) {
+        dragSourceCell.updateMetadata(metadata);
       }
     }
     this.props.onControlDrop({ metadata, cellMetadata,
