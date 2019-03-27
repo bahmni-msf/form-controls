@@ -276,13 +276,13 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
-          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
-            onSuccessfulControlDrop()}
+          onControlDrop ={ ({ successCallback }) => successCallback()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
       const processDropSuccessCallback = sinon.spy();
-      wrapper.instance().handleControlDrop({ type: 'obsControl' }, [], processDropSuccessCallback);
+      wrapper.instance().handleControlDrop({ metadata: { type: 'obsControl' }, cellMetadata: [],
+        successCallback: processDropSuccessCallback });
       expect('addMore', processDropSuccessCallback.getCall(0).args[0][1]);
     });
 
@@ -294,13 +294,13 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
-          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
-            onSuccessfulControlDrop()}
+          onControlDrop ={ ({ successCallback }) => successCallback()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
       const processDropSuccessCallback = sinon.spy();
-      wrapper.instance().handleControlDrop({ type: 'section' }, [], processDropSuccessCallback);
+      wrapper.instance().handleControlDrop({ metadata: { type: 'section' }, cellMetadata: [],
+        successCallback: processDropSuccessCallback });
       sinon.assert.notCalled(processDropSuccessCallback);
     });
 
@@ -312,14 +312,13 @@ describe('TableDesigner', () => {
           dispatch={() => {}}
           idGenerator={idGenerator}
           metadata={metadata}
-          onControlDrop ={ (meta, cellMetadata, onSuccessfulControlDrop) =>
-            onSuccessfulControlDrop()}
+          onControlDrop ={ ({ successCallback }) => successCallback()}
           onSelect={() => {}}
           wrapper={() => {}}
         />);
       const processDropSuccessCallback = sinon.spy();
-      wrapper.instance().handleControlDrop({ type: 'obsControl' },
-        [{ type: 'obsControl' }], processDropSuccessCallback);
+      wrapper.instance().handleControlDrop({ metadata: { type: 'obsControl' },
+        cellMetadata: [{ type: 'obsControl' }], successCallback: processDropSuccessCallback });
       sinon.assert.notCalled(processDropSuccessCallback);
     });
   });

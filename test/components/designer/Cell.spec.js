@@ -42,6 +42,7 @@ describe('Cell', () => {
               location={location}
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
 
             />
@@ -105,6 +106,7 @@ describe('Cell', () => {
               location={location}
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );
@@ -128,6 +130,7 @@ describe('Cell', () => {
               location={location}
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );
@@ -148,6 +151,7 @@ describe('Cell', () => {
               location={ { row: 0, column: 0 } }
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );
@@ -158,6 +162,7 @@ describe('Cell', () => {
               location={{ row: 0, column: 1 }}
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );
@@ -189,6 +194,7 @@ describe('Cell', () => {
               location={{ column: 10, row: 1 }}
               onChange={() => {
               }}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );
@@ -218,6 +224,7 @@ describe('Cell', () => {
               idGenerator={idGenerator}
               location={location}
               onChange={onChange.onChange}
+              onControlDrop={(argumnents) => argumnents.successCallback(argumnents.metadata)}
               wrapper={ TestComponent }
             />
         );

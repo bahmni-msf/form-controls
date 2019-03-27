@@ -71,10 +71,8 @@ export class CellDesigner extends DropTarget {
       this.setState({ data: dataClone });
     };
 
-    if (onControlDrop) {
-      if (this.props.dragAllowed !== false) {onControlDrop(metadata, data, successCallback, this);}
-    } else {
-      successCallback(metadata);
+    if (this.props.dragAllowed !== false) {
+      onControlDrop({ cellMetadata: data, dropCell: this, successCallback, metadata });
     }
   }
 
@@ -100,6 +98,7 @@ export class CellDesigner extends DropTarget {
         showDeleteButton: this.props.showDeleteButton,
         dragSourceCell: this.props.dragSourceCell,
         isBeingDragged: this.props.isBeingDragged,
+        dragAllowed: this.props.dragAllowed,
       }
       ));
   }
@@ -122,7 +121,7 @@ export class CellDesigner extends DropTarget {
 
   render() {
     return (
-      <div>
+      <div className="form-builder-column-wrapper">
         {!this.props.isBeingDragged ?
           <div
             className={this.className}

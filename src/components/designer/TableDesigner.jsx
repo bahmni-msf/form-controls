@@ -114,7 +114,7 @@ export class TableDesigner extends Component {
     event.stopPropagation();
   }
 
-  handleControlDrop(metadata, cellMetadata, successCallback, dropCell) {
+  handleControlDrop({ metadata, cellMetadata, successCallback, dropCell }) {
     function onSuccessfulControlDrop() {
       const hasOnlySupportedControlTypes = supportedControlTypes.includes(metadata.type);
       const hasNoElementInCell = cellMetadata.length === 0;
@@ -122,7 +122,8 @@ export class TableDesigner extends Component {
         successCallback(Object.assign({}, metadata, { unsupportedProperties }));
       }
     }
-    this.props.onControlDrop(metadata, cellMetadata, onSuccessfulControlDrop, dropCell);
+    this.props.onControlDrop({ metadata, cellMetadata,
+      successCallback: onSuccessfulControlDrop, dropCell });
   }
 
   render() {
