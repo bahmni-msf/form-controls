@@ -11,9 +11,9 @@ export class CodedControl extends Component {
     this.onValueChange = this.onValueChange.bind(this);
   }
 
-  onValueChange(value, errors) {
+  onValueChange(value, errors, isMount) {
     const updatedValue = this._getUpdatedValue(value);
-    this.props.onChange(updatedValue, errors);
+    this.props.onChange(updatedValue, errors,()=>{},isMount);
   }
 
   _getUpdatedValue(value) {

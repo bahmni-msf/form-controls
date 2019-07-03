@@ -30,12 +30,25 @@ export class Container extends addMoreDecorator(Component) {
   componentWillMount() {
     const initScript = this.props.metadata.events && this.props.metadata.events.onFormInit;
     if (initScript) {
-      const updatedTree = new ScriptRunner(this.state.data, this.props.patient).execute(initScript);
-      this.setState({ data: updatedTree });
+      const ut = new ScriptRunner(this.state.data, this.props.patient).execute(initScript);
+      this.setState({ data: ut });
     }
+    const controls = this.props.metadata.controls;
+    let updatedTree= this.state.data
+    controls.forEach((control) =>{
+        if(control.events){
+          const script= control.events["onValueChange"];
+          debugger;
+          updatedTree = new ScriptRunner(updatedTree, this.props.patient).execute(script);
+        }
+    });
+    this.setState({
+      data: updatedTree,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps')
     this.setState({ collapse: nextProps.collapse });
   }
 

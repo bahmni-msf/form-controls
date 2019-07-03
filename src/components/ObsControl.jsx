@@ -31,7 +31,7 @@ export class ObsControl extends addMoreDecorator(Component) {
     }
   }
 
-  onChange(value, errors, calledOnMount) {
+  onChange(value, errors, calledOnMount, isMount) {
     const { metadata: { properties } } = this.props;
 
     const isAbnormalPropertyEnabled = find(properties, (val, key) => (key === 'abnormal' && val));
@@ -46,7 +46,7 @@ export class ObsControl extends addMoreDecorator(Component) {
       this.props.formFieldPath,
       obsValue,
       errors,
-      this.onValueChangeDone);
+      isMount? () =>{} :this.onValueChangeDone);
   }
 
   onCommentChange(comment) {
