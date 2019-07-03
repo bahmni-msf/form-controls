@@ -55,11 +55,19 @@ describe('ControlRecordWrapper', () => {
   const controlledTree = new ControlRecord({
     control,
     formFieldPath: '3406.1/1-0',
+    value: {
+      value: undefined,
+      comment: 'comment',
+    },
   });
 
   const clonedControlledTree = new ControlRecord({
     control,
     formFieldPath: '3406.1/1-1',
+    value: {
+      value: undefined,
+      comment: 'comment',
+    },
   });
 
   const controlledObsGroupTree = new ControlRecord({
@@ -111,5 +119,39 @@ describe('ControlRecordWrapper', () => {
     targetWrapper.currentRecord.children.forEach(r => {
       expect(r.enabled).to.equal(false);
     });
+  });
+
+  it('should set value and comments to undefined when the record is set hidden' +
+    'and it is a control event', () => {
+    const wrapper = new ControlRecordWrapper(rootTree, 'controlEvent');
+    const targetWrapper = wrapper.set(controlledTree);
+
+    targetWrapper.setValue(112);
+    targetWrapper.setHidden(true);
+
+    const childrenList = targetWrapper.getRecords().children;
+    const controlledRecord = childrenList.get(1);
+    const clonedControlledRecord = childrenList.get(2);
+    expect(controlledRecord.getValue()).to.equal(undefined);
+    expect(clonedControlledRecord.getValue()).to.equal(undefined);
+    expect(controlledRecord.hidden).to.equal(true);
+    expect(clonedControlledRecord.hidden).to.equal(true);
+  });
+
+  it('should not set value and comments to undefined when the record is set hidden' +
+    'and it is a form event', () => {
+    const wrapper = new ControlRecordWrapper(rootTree, 'formEvent');
+    const targetWrapper = wrapper.set(controlledTree);
+
+    targetWrapper.setValue(112);
+    targetWrapper.setHidden(true);
+
+    const childrenList = targetWrapper.getRecords().children;
+    const controlledRecord = childrenList.get(1);
+    const clonedControlledRecord = childrenList.get(2);
+    expect(controlledRecord.getValue()).to.equal(112);
+    expect(clonedControlledRecord.getValue()).to.equal(112);
+    expect(controlledRecord.hidden).to.equal(true);
+    expect(clonedControlledRecord.hidden).to.equal(true);
   });
 });

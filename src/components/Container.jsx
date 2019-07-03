@@ -30,7 +30,8 @@ export class Container extends addMoreDecorator(Component) {
   componentWillMount() {
     const initScript = this.props.metadata.events && this.props.metadata.events.onFormInit;
     if (initScript) {
-      const updatedTree = new ScriptRunner(this.state.data, this.props.patient).execute(initScript);
+      const updatedTree = new ScriptRunner(this.state.data, this.props.patient, 'formEvent')
+        .execute(initScript);
       this.setState({ data: updatedTree });
     }
   }
@@ -43,7 +44,8 @@ export class Container extends addMoreDecorator(Component) {
     const eventScripts = ControlRecordTreeMgr.find(this.state.data, sender).getEventScripts();
     const script = eventScripts && eventScripts[eventName];
     if (script) {
-      const updatedTree = new ScriptRunner(this.state.data, this.props.patient).execute(script);
+      const updatedTree = new ScriptRunner(this.state.data, this.props.patient, 'controlEvent')
+        .execute(script);
       this.setState({
         data: updatedTree,
       });

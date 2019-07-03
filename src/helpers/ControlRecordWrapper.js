@@ -2,8 +2,9 @@ import ControlRecordTreeMgr from './ControlRecordTreeMgr';
 
 export default class ControlRecordWrapper {
 
-  constructor(rootRecord) {
+  constructor(rootRecord, eventName) {
     this.rootRecord = rootRecord;
+    this.eventName = eventName;
   }
 
   set(currentRecord) {
@@ -66,11 +67,19 @@ export default class ControlRecordWrapper {
     return this.currentRecord && this.currentRecord.hidden;
   }
 
+  isControlEvent() {
+    return this.eventName === 'controlEvent';
+  }
+
   setHidden(hidden) {
     const brotherTrees = ControlRecordTreeMgr.getBrothers(this.rootRecord, this.currentRecord);
 
     brotherTrees.forEach(r => {
-      const updatedRecord = r.set('hidden', hidden);
+      let updatedRecord = r.set('hidden', hidden);
+      if (hidden && this.isControlEvent()) {
+        const value = Object.assign(updatedRecord.value, { value: undefined, comment: undefined });
+        updatedRecord = updatedRecord.set('value', value);
+      }
       this.update(updatedRecord);
     });
   }
