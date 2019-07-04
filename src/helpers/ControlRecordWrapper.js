@@ -77,10 +77,27 @@ export default class ControlRecordWrapper {
     brotherTrees.forEach(r => {
       let updatedRecord = r.set('hidden', hidden);
       if (hidden && this.isControlEvent()) {
-        const value = Object.assign(updatedRecord.value, { value: undefined, comment: undefined });
-        updatedRecord = updatedRecord.set('value', value);
+        updatedRecord = this.clearObsValuesAndComment(updatedRecord);
       }
       this.update(updatedRecord);
     });
+  }
+
+  setObsValueAndCommentToUndefined(controlRecord) {
+    const value = Object.assign(controlRecord.value, { value: undefined, comment: undefined });
+    return controlRecord.set('value', value);
+  }
+
+  clearObsValuesAndComment(controlRecord) {
+    let updatedRecord = controlRecord;
+    if (updatedRecord.control.type === 'obsControl') {
+      updatedRecord = this.setObsValueAndCommentToUndefined(updatedRecord);
+    } else if (updatedRecord.control.type === 'obsGroupControl'
+      || updatedRecord.control.type === 'table'
+      || updatedRecord.control.type === 'section') {
+      const children = updatedRecord.children;
+      children.map(child => this.clearObsValuesAndComment(child));
+    }
+    return updatedRecord;
   }
 }
