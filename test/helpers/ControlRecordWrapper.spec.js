@@ -71,9 +71,11 @@ describe('ControlRecordWrapper', () => {
   });
 
   const controlledObsGroupTree = new ControlRecord({
-    control: [{ concept: {
-      name: 'Temperature Data',
-    } }],
+    control: {
+      type: 'obsGroupControl',
+      concept: {
+        name: 'Temperature Data',
+      } },
     children: List.of(clonedControlledTree, controlledTree),
     formFieldPath: '3406.1/3-0',
   });
@@ -153,5 +155,74 @@ describe('ControlRecordWrapper', () => {
     expect(clonedControlledRecord.getValue()).to.equal(112);
     expect(controlledRecord.hidden).to.equal(true);
     expect(clonedControlledRecord.hidden).to.equal(true);
+  });
+
+  it('should set value and comments to undefined for all its children when the obs group is ' +
+    'set hidden and it is a control event', () => {
+    const wrapper = new ControlRecordWrapper(rootTree, 'controlEvent');
+    const targetWrapper = wrapper.set(controlledObsGroupTree);
+    controlledObsGroupTree.children.get(0).value.value = 112;
+    controlledObsGroupTree.children.get(1).value.value = 112;
+
+    targetWrapper.setHidden(true);
+
+    expect(controlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
+    expect(controlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
+    expect(controlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
+    expect(controlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
+  });
+
+  it('should set value and comments to undefined when the table is set hidden' +
+    'and it is a control event', () => {
+    const newControlledObsGroupTree = new ControlRecord({
+      control: {
+        type: 'table',
+        concept: {
+          name: 'Temperature Data',
+        } },
+      children: List.of(clonedControlledTree, controlledTree),
+      formFieldPath: '3406.1/3-0',
+    });
+    const newRootTree = new ControlRecord({
+      children: List.of(newControlledObsGroupTree),
+    });
+    const wrapper = new ControlRecordWrapper(newRootTree, 'controlEvent');
+    const targetWrapper = wrapper.set(newControlledObsGroupTree);
+    newControlledObsGroupTree.children.get(0).value.value = 112;
+    newControlledObsGroupTree.children.get(1).value.value = 112;
+
+    targetWrapper.setHidden(true);
+
+    expect(newControlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
+  });
+
+  it('should set value and comments to undefined when the section is set hidden' +
+    'and it is a control event', () => {
+    const newControlledObsGroupTree = new ControlRecord({
+      control: {
+        type: 'section',
+        concept: {
+          name: 'Temperature Data',
+        } },
+      children: List.of(clonedControlledTree, controlledTree),
+      formFieldPath: '3406.1/3-0',
+    });
+    const newRootTree = new ControlRecord({
+      children: List.of(newControlledObsGroupTree),
+    });
+    const wrapper = new ControlRecordWrapper(newRootTree, 'controlEvent');
+    const targetWrapper = wrapper.set(newControlledObsGroupTree);
+    newControlledObsGroupTree.children.get(0).value.value = 112;
+    newControlledObsGroupTree.children.get(1).value.value = 112;
+
+    targetWrapper.setHidden(true);
+
+    expect(newControlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
+    expect(newControlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
   });
 });
