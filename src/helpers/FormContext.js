@@ -2,8 +2,8 @@ import ControlRecordWrapper from './ControlRecordWrapper';
 
 export default class FormContext {
 
-  constructor(formRecords, patient, eventName) {
-    this.wrapper = new ControlRecordWrapper(formRecords, eventName);
+  constructor(formRecords, patient) {
+    this.wrapper = new ControlRecordWrapper(formRecords);
     this.rootRecord = formRecords;
     this.patient = patient;
   }

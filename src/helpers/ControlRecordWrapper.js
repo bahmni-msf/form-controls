@@ -2,9 +2,8 @@ import ControlRecordTreeMgr from './ControlRecordTreeMgr';
 
 export default class ControlRecordWrapper {
 
-  constructor(rootRecord, eventName) {
+  constructor(rootRecord) {
     this.rootRecord = rootRecord;
-    this.eventName = eventName;
   }
 
   set(currentRecord) {
@@ -67,25 +66,32 @@ export default class ControlRecordWrapper {
     return this.currentRecord && this.currentRecord.hidden;
   }
 
-  isControlEvent() {
-    return this.eventName === 'controlEvent';
-  }
-
   setHidden(hidden) {
     const brotherTrees = ControlRecordTreeMgr.getBrothers(this.rootRecord, this.currentRecord);
 
     brotherTrees.forEach(r => {
-      let updatedRecord = r.set('hidden', hidden);
-      if (hidden && this.isControlEvent()) {
-        updatedRecord = this.clearObsValuesAndComment(updatedRecord);
-      }
+      const updatedRecord = r.set('hidden', hidden);
       this.update(updatedRecord);
     });
+  }
+
+  hideAndClear() {
+    this.setHidden(true);
+    this.clearObs();
   }
 
   setObsValueAndCommentToUndefined(controlRecord) {
     const value = Object.assign(controlRecord.value, { value: undefined, comment: undefined });
     return controlRecord.set('value', value);
+  }
+
+  clearObs() {
+    const brotherTrees = ControlRecordTreeMgr.getBrothers(this.rootRecord, this.currentRecord);
+
+    brotherTrees.forEach(r => {
+      const updatedRecord = this.clearObsValuesAndComment(r);
+      this.update(updatedRecord);
+    });
   }
 
   clearObsValuesAndComment(controlRecord) {
