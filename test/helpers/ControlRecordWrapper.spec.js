@@ -123,13 +123,12 @@ describe('ControlRecordWrapper', () => {
     });
   });
 
-  it('should set value and comments to undefined when the record is set hidden' +
-    'and it is a control event', () => {
-    const wrapper = new ControlRecordWrapper(rootTree, 'controlEvent');
+  it('should set value and comments to undefined for obs when the record is hidden', () => {
+    const wrapper = new ControlRecordWrapper(rootTree);
     const targetWrapper = wrapper.set(controlledTree);
-
     targetWrapper.setValue(112);
-    targetWrapper.setHidden(true);
+
+    targetWrapper.hideAndClear(true);
 
     const childrenList = targetWrapper.getRecords().children;
     const controlledRecord = childrenList.get(1);
@@ -140,41 +139,25 @@ describe('ControlRecordWrapper', () => {
     expect(clonedControlledRecord.hidden).to.equal(true);
   });
 
-  it('should not set value and comments to undefined when the record is set hidden' +
-    'and it is a form event', () => {
-    const wrapper = new ControlRecordWrapper(rootTree, 'formEvent');
-    const targetWrapper = wrapper.set(controlledTree);
-
-    targetWrapper.setValue(112);
-    targetWrapper.setHidden(true);
-
-    const childrenList = targetWrapper.getRecords().children;
-    const controlledRecord = childrenList.get(1);
-    const clonedControlledRecord = childrenList.get(2);
-    expect(controlledRecord.getValue()).to.equal(112);
-    expect(clonedControlledRecord.getValue()).to.equal(112);
-    expect(controlledRecord.hidden).to.equal(true);
-    expect(clonedControlledRecord.hidden).to.equal(true);
-  });
-
   it('should set value and comments to undefined for all its children when the obs group is ' +
-    'set hidden and it is a control event', () => {
-    const wrapper = new ControlRecordWrapper(rootTree, 'controlEvent');
+    'hidden', () => {
+    const wrapper = new ControlRecordWrapper(rootTree);
     const targetWrapper = wrapper.set(controlledObsGroupTree);
     controlledObsGroupTree.children.get(0).value.value = 112;
     controlledObsGroupTree.children.get(1).value.value = 112;
 
-    targetWrapper.setHidden(true);
+    targetWrapper.hideAndClear();
 
-    expect(controlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
-    expect(controlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
-    expect(controlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
-    expect(controlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
+    const updatedTree = targetWrapper.rootRecord.children.get(3);
+    expect(updatedTree.hidden).to.eq(true);
+    expect(updatedTree.children.get(0).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(0).value.comment).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.comment).to.eq(undefined);
   });
 
-  it('should set value and comments to undefined when the table is set hidden' +
-    'and it is a control event', () => {
-    const newControlledObsGroupTree = new ControlRecord({
+  it('should set value and comments to undefined when the table is hidden', () => {
+    const controlledTableTree = new ControlRecord({
       control: {
         type: 'table',
         concept: {
@@ -184,24 +167,26 @@ describe('ControlRecordWrapper', () => {
       formFieldPath: '3406.1/3-0',
     });
     const newRootTree = new ControlRecord({
-      children: List.of(newControlledObsGroupTree),
+      children: List.of(controlledTableTree),
     });
-    const wrapper = new ControlRecordWrapper(newRootTree, 'controlEvent');
-    const targetWrapper = wrapper.set(newControlledObsGroupTree);
-    newControlledObsGroupTree.children.get(0).value.value = 112;
-    newControlledObsGroupTree.children.get(1).value.value = 112;
+    const wrapper = new ControlRecordWrapper(newRootTree);
+    const targetWrapper = wrapper.set(controlledTableTree);
+    controlledTableTree.children.get(0).value.value = 112;
+    controlledTableTree.children.get(1).value.value = 112;
 
-    targetWrapper.setHidden(true);
+    targetWrapper.hideAndClear();
 
-    expect(newControlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
+    const updatedTree = targetWrapper.rootRecord.children.get(0);
+    expect(updatedTree.hidden).to.eq(true);
+    expect(updatedTree.children.get(0).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(0).value.comment).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.comment).to.eq(undefined);
   });
 
   it('should set value and comments to undefined when the section is set hidden' +
     'and it is a control event', () => {
-    const newControlledObsGroupTree = new ControlRecord({
+    const controlledSectionTree = new ControlRecord({
       control: {
         type: 'section',
         concept: {
@@ -211,18 +196,20 @@ describe('ControlRecordWrapper', () => {
       formFieldPath: '3406.1/3-0',
     });
     const newRootTree = new ControlRecord({
-      children: List.of(newControlledObsGroupTree),
+      children: List.of(controlledSectionTree),
     });
-    const wrapper = new ControlRecordWrapper(newRootTree, 'controlEvent');
-    const targetWrapper = wrapper.set(newControlledObsGroupTree);
-    newControlledObsGroupTree.children.get(0).value.value = 112;
-    newControlledObsGroupTree.children.get(1).value.value = 112;
+    const wrapper = new ControlRecordWrapper(newRootTree);
+    const targetWrapper = wrapper.set(controlledSectionTree);
+    controlledSectionTree.children.get(0).value.value = 112;
+    controlledSectionTree.children.get(1).value.value = 112;
 
-    targetWrapper.setHidden(true);
+    targetWrapper.hideAndClear();
 
-    expect(newControlledObsGroupTree.children.get(0).value.value).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(0).value.comment).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(1).value.value).to.eq(undefined);
-    expect(newControlledObsGroupTree.children.get(1).value.comment).to.eq(undefined);
+    const updatedTree = targetWrapper.rootRecord.children.get(0);
+    expect(updatedTree.hidden).to.eq(true);
+    expect(updatedTree.children.get(0).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(0).value.comment).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.value).to.eq(undefined);
+    expect(updatedTree.children.get(1).value.comment).to.eq(undefined);
   });
 });
