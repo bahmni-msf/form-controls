@@ -98,9 +98,7 @@ export default class ControlRecordWrapper {
     let updatedRecord = controlRecord;
     if (updatedRecord.control.type === 'obsControl') {
       updatedRecord = this.setObsValueAndCommentToUndefined(updatedRecord);
-    } else if (updatedRecord.control.type === 'obsGroupControl'
-      || updatedRecord.control.type === 'table'
-      || updatedRecord.control.type === 'section') {
+    } else if (updatedRecord.children) {
       const children = updatedRecord.children;
       children.map(child => this.clearObsValuesAndComment(child));
     }
