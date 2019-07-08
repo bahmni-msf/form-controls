@@ -184,8 +184,7 @@ describe('ControlRecordWrapper', () => {
     expect(updatedTree.children.get(1).value.comment).to.eq(undefined);
   });
 
-  it('should set value and comments to undefined when the section is set hidden' +
-    'and it is a control event', () => {
+  it('should set value and comments to undefined when the section is set hidden', () => {
     const controlledSectionTree = new ControlRecord({
       control: {
         type: 'section',
@@ -211,5 +210,27 @@ describe('ControlRecordWrapper', () => {
     expect(updatedTree.children.get(0).value.comment).to.eq(undefined);
     expect(updatedTree.children.get(1).value.value).to.eq(undefined);
     expect(updatedTree.children.get(1).value.comment).to.eq(undefined);
+  });
+
+  it('should set control to hidden when the section is set hidden  and children is null', () => {
+    const controlledSectionTree = new ControlRecord({
+      control: {
+        type: 'section',
+        concept: {
+          name: 'Temperature Data',
+        } },
+      children: null,
+      formFieldPath: '3406.1/3-0',
+    });
+    const newRootTree = new ControlRecord({
+      children: List.of(controlledSectionTree),
+    });
+    const wrapper = new ControlRecordWrapper(newRootTree);
+    const targetWrapper = wrapper.set(controlledSectionTree);
+
+    targetWrapper.hideAndClear();
+
+    const updatedTree = targetWrapper.rootRecord.children.get(0);
+    expect(updatedTree.hidden).to.eq(true);
   });
 });
