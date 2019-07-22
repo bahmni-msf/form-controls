@@ -16,3 +16,8 @@ export function getCurrentFormFieldPathIfAddMore(formName, formVersion, control,
   return control.properties.addMore ? `${formName}.${formVersion}/${control.id}-0` : '';
 }
 
+export function getLastControlIdFromFormFieldPath(formFieldPath) {
+  return formFieldPath ? formFieldPath.substring(formFieldPath.lastIndexOf('/') + 1,
+    formFieldPath.lastIndexOf('-')) : -1;
+}
+

@@ -1,8 +1,10 @@
-import { isAnyAncestorOrControlHasAddMore,
-    getCurrentFormFieldPathIfAddMore } from 'src/helpers/ControlUtil';
+import {
+  isAnyAncestorOrControlHasAddMore,
+  getCurrentFormFieldPathIfAddMore, getLastControlIdFromFormFieldPath,
+} from 'src/helpers/ControlUtil';
 import { expect } from 'chai';
 
-describe('ControlsParser', () => {
+describe('ControlUtil', () => {
   describe('isAnyAncestorOrControlHasAddMore', () => {
     it('should return true when parentFormFieldPath exists', () => {
       const control = {};
@@ -64,6 +66,16 @@ describe('ControlsParser', () => {
       };
       const result = getCurrentFormFieldPathIfAddMore('Form', '1', control, '');
       expect(result).to.eql('');
+    });
+
+    describe('getLastControlIdFromFormFieldPath', () => {
+      it('should return last control id for a given form field path', () => {
+        expect('4').to.eql(getLastControlIdFromFormFieldPath('TestForm.1/1-0/3-1/4-3'));
+      });
+
+      it('should return -1 if given form field path is undefined', () => {
+        expect(-1).to.eql(getLastControlIdFromFormFieldPath());
+      });
     });
   });
 });
