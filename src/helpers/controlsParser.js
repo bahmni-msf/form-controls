@@ -82,3 +82,22 @@ export function displayRowControls(controls, records, childProps, isInTable = fa
     />
   );
 }
+
+export function getControlFromId(controlId, ancestorControl) {
+  if (!(controlId && ancestorControl)) {
+    return undefined;
+  }
+  if (controlId === ancestorControl.id) {
+    return ancestorControl;
+  }
+
+  if (ancestorControl.controls) {
+    for (const control of ancestorControl.controls) {
+      const result = getControlFromId(controlId, control);
+      if (result) {
+        return result;
+      }
+    }
+  }
+  return undefined;
+}

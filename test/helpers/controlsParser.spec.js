@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { groupControlsByLocation, sortGroupedControls } from 'src/helpers/controlsParser';
+import { groupControlsByLocation, sortGroupedControls,
+  getControlFromId } from 'src/helpers/controlsParser';
 import { setupAddRemoveButtonsForAddMore } from 'src/helpers/controlsParser';
 import { ControlRecord } from 'src/ControlState';
 
@@ -66,5 +67,122 @@ describe('ControlsParser', () => {
       expect(modifiedRecords[2].showAddMore).to.eql(true);
       expect(modifiedRecords[2].showRemove).to.eql(true);
     });
+  });
+
+  describe('getControlFromId', () => {
+    it('should return undefined if control is undefined', () => {
+      expect(undefined).to.eql(getControlFromId(2));
+    });
+
+    it('should return undefined if controlId and control are undefined', () => {
+      expect(undefined).to.eql(getControlFromId());
+    });
+
+    it('should return control if controlId is same for passed in control', () => {
+      const control = {
+        id: 1,
+      };
+      const actualControl = getControlFromId(1, control);
+      expect(1).to.eql(actualControl.id);
+    });
+
+    it('should return undefined if control is empty', () => {
+      const actualControl = getControlFromId(2, {});
+      expect(undefined).to.eql(actualControl);
+    });
+
+    it('should return immediate section control from root', () => {
+      const control = {
+        name: 'form',
+        controls: [
+          {
+            name: 'Section',
+            id: 1,
+          },
+        ],
+      };
+
+      const actualControl = getControlFromId(1, control);
+      expect(1).to.eql(actualControl.id);
+    });
+
+    it('should return second section control from root which has two section controls',
+      () => {
+        const control = {
+          name: 'form',
+          controls: [
+            {
+              name: 'Section',
+              id: 1,
+            },
+            {
+              name: 'Section',
+              id: 2,
+            },
+          ],
+        };
+
+        const actualControl = getControlFromId(2, control);
+        expect(2).to.eql(actualControl.id);
+      });
+
+    it('should return the inner section control from root which has section inside a section',
+      () => {
+        const control = {
+          name: 'form',
+          controls: [
+            {
+              name: 'Section',
+              id: 1,
+              controls: [
+                {
+                  type: 'obsControl',
+                  id: 9,
+                },
+              ],
+            },
+          ],
+        };
+
+        const actualControl = getControlFromId(9, control);
+        expect(9).to.eql(actualControl.id);
+      });
+
+    it('should return section control which is present two levels deep from root and the last' +
+      'one in that level ',
+      () => {
+        const control = {
+          name: 'form',
+          controls: [
+            {
+              name: 'Section',
+              id: 1,
+              controls: [
+                {
+                  type: 'section2',
+                  id: 9,
+                  controls: [
+                    {
+                      type: 'section3',
+                      id: 10,
+                    },
+                    {
+                      type: 'section4',
+                      id: 12,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'Section',
+              id: 11,
+            },
+          ],
+        };
+
+        const actualControl = getControlFromId(12, control);
+        expect(12).to.eql(actualControl.id);
+      });
   });
 });
