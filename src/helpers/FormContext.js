@@ -8,6 +8,10 @@ export default class FormContext {
     this.patient = patient;
   }
 
+  findIt(conceptname) {
+    find(this.rootRecord, conceptname);
+  }
+
   getName(recordTree) {
     return recordTree.getConceptName() || recordTree.getLabelName();
   }
@@ -31,6 +35,8 @@ export default class FormContext {
   }
 
   get(name, index = 0) {
+    console.log('>>>>>>>>>>>>>>>>>>')
+    console.log(this.find(this.rootRecord, name));
     const currentRecord = this.find(this.rootRecord, name)[index];
     if (!currentRecord) {
       const message = `name[${name}] and position[${index}]`;

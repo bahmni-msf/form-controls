@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { displayRowControls, getGroupedControls } from '../helpers/controlsParser';
+import { displayRowControls, getGroupedControls, getControlFromId } from '../helpers/controlsParser';
 import isEmpty from 'lodash/isEmpty';
 import ControlRecordTreeBuilder from 'src/helpers/ControlRecordTreeBuilder';
 import ControlRecordTreeMgr from 'src/helpers/ControlRecordTreeMgr';
@@ -10,6 +10,7 @@ import ObservationMapper from '../helpers/ObservationMapper';
 import NotificationContainer from '../helpers/Notification';
 import Constants from '../constants';
 import { IntlProvider } from 'react-intl';
+import { getLastControlIdFromFormFieldPath } from 'src/helpers/ControlUtil';
 
 export class Container extends addMoreDecorator(Component) {
   constructor(props) {
@@ -92,8 +93,8 @@ export class Container extends addMoreDecorator(Component) {
   }
 
   onControlAdd(formFieldPath, isNotificationShown = true) {
-    const updatedRecordTree = ControlRecordTreeMgr.add(this.state.data, formFieldPath);
-
+    let updatedRecordTree = ControlRecordTreeMgr.add(this.state.data, formFieldPath);
+    updatedRecordTree = this.executeFormConditionsForAddedTree(formFieldPath, updatedRecordTree);
     const addMoreMessage = this.getAddMoreMessage(this.state.data, formFieldPath);
     if (isNotificationShown) {
       this.setState({
@@ -107,6 +108,12 @@ export class Container extends addMoreDecorator(Component) {
     }
 
     this.hideNotification();
+  }
+
+  executeFormConditionsForAddedTree(formFieldPath, updatedRecordTree) {
+    const addMoreControlId = getLastControlIdFromFormFieldPath(formFieldPath);
+    const addedTreeControl = getControlFromId(addMoreControlId, this.props.metadata);
+    return this.executeAllControlEvents(addedTreeControl.controls, updatedRecordTree);
   }
 
   onControlRemove(formFieldPath) {
