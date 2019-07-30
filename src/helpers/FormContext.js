@@ -2,14 +2,11 @@ import ControlRecordWrapper from './ControlRecordWrapper';
 
 export default class FormContext {
 
-  constructor(formRecords, patient) {
+  constructor(formRecords, patient, parentRecord) {
     this.wrapper = new ControlRecordWrapper(formRecords);
     this.rootRecord = formRecords;
     this.patient = patient;
-  }
-
-  findIt(conceptname) {
-    find(this.rootRecord, conceptname);
+    this.parentRecord = parentRecord;
   }
 
   getName(recordTree) {
@@ -35,8 +32,6 @@ export default class FormContext {
   }
 
   get(name, index = 0) {
-    console.log('>>>>>>>>>>>>>>>>>>')
-    console.log(this.find(this.rootRecord, name));
     const currentRecord = this.find(this.rootRecord, name)[index];
     if (!currentRecord) {
       const message = `name[${name}] and position[${index}]`;
@@ -44,6 +39,18 @@ export default class FormContext {
       console.warn(`[FormEventHandler] Control with ${message} is not exist`);
     }
     return this.wrapper.set(currentRecord);
+  }
+
+  getAll(name) {
+    const records = this.find(this.parentRecord, name);
+      if (!records) {
+          const message = `name[${name}]`;
+          /* eslint-disable */
+          console.warn(`[FormEventHandler] Control with ${message} is not exist`);
+      }
+      // return records.map(record => new ControlRecordWrapper(this.rootRecord).set(record))
+      return records.map(record => this.wrapper.set(record))
+
   }
 
   findById(recordTree, id) {
