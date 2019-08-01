@@ -35,10 +35,11 @@ export class Container extends addMoreDecorator(Component) {
       updatedTree = new ScriptRunner(this.state.data, this.props.patient).execute(initScript);
       this.setState({ data: updatedTree });
     }
-    const controls = this.props.metadata.controls;
+    // const controls = this.props.metadata.controls;
+    // this statement required?
     updatedTree = updatedTree || this.state.data;
     // updatedTree = this.executeAllControlEvents(controls, updatedTree);
-    updatedTree = this.executeEventsForAllRecords(updatedTree, updatedTree);
+    updatedTree = this.executeEventsForAllRecords(updatedTree);
     this.setState({
       data: updatedTree,
     });
@@ -63,7 +64,7 @@ export class Container extends addMoreDecorator(Component) {
   }
 
   executeEventsForAllRecords(parentRecord, rootRecord) {
-    let recordTree = rootRecord;
+    let recordTree = rootRecord || parentRecord;
     if (!parentRecord.children) return recordTree;
     parentRecord.children.forEach(record => {
       recordTree = this.executeEventsForAllRecords(record, recordTree);

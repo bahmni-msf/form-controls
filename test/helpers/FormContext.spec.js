@@ -277,4 +277,110 @@ describe('FormContext', () => {
     const formContext = new FormContext(recordTree, patient);
     expect(formContext.getPatient()).to.eql(patient);
   });
+
+  describe('getAll', () => {
+    const addMoreObsControl = new ControlRecord({
+      control: {
+        type: 'obsControl',
+        label: {
+          translationKey: 'MTC,_DRUG_PRESCRIBED_DAYS_2',
+        },
+        properties: {
+          addMore: true,
+        },
+        id: '2',
+        concept: {
+          name: 'MTC, Drug prescribed days',
+        },
+      },
+      formFieldPath: 'Vitals.2/2-0',
+      dataSource: {
+        concept: {
+          name: 'MTC, Drug prescribed days',
+        },
+        formFieldPath: 'Vitals.2/2-0',
+      },
+    });
+    const anotherAddMoreObsControl = new ControlRecord({
+      control: {
+        type: 'obsControl',
+        label: {
+          translationKey: 'MTC,_DRUG_PRESCRIBED_DAYS_2',
+        },
+        properties: {
+          addMore: true,
+        },
+        id: '2',
+        concept: {
+          name: 'MTC, Drug prescribed days',
+        },
+      },
+      formFieldPath: 'Vitals.2/2-1',
+      dataSource: {
+        concept: {
+          name: 'MTC, Drug prescribed days',
+        },
+        formFieldPath: 'Vitals.2/2-1',
+      },
+    });
+
+    const addMoreSectionControl = new ControlRecord({
+      control: {
+        type: 'section',
+        label: {
+          value: 'Section',
+          id: 1,
+        },
+        properties: {
+          addMore: true,
+        },
+        id: 1,
+      },
+      formFieldPath: 'Vitals.2/1-0',
+    });
+
+    const anotherAddMoreSectionControl = new ControlRecord({
+      control: {
+        type: 'section',
+        label: {
+          value: 'Section',
+          id: 1,
+        },
+        properties: {
+          addMore: true,
+        },
+        id: 1,
+      },
+      formFieldPath: 'Vitals.2/1-1',
+    });
+
+    const obsRecordTree = new ControlRecord({
+      children: List.of(addMoreObsControl, anotherAddMoreObsControl),
+    });
+
+    const sectionRecordTree = new ControlRecord({
+      children: List.of(addMoreSectionControl, anotherAddMoreSectionControl),
+    });
+
+    it.only('should get list of obs records with the given name', () => {
+      const formContext = new FormContext(obsRecordTree);
+      const targetRecordWrapper = formContext.getAll('MTC, Drug prescribed days');
+      console.log('test', JSON.stringify(targetRecordWrapper));
+      expect(targetRecordWrapper.length).to.eql(2);
+      expect(targetRecordWrapper[0].currentRecord.formFieldPath)
+        .to.equal('Vitals.2/2-1');
+      expect(targetRecordWrapper[1].currentRecord.formFieldPath)
+        .to.equal('Vitals.2/2-1');
+    });
+
+    it('should get list of section records with the given name', () => {
+      const formContext = new FormContext(undefined, undefined, sectionRecordTree);
+      const targetRecordWrapper = formContext.getAll('Section');
+      expect(targetRecordWrapper.length).to.eql(2);
+      expect(targetRecordWrapper[0].currentRecord.formFieldPath)
+        .to.equal('Vitals.2/1-1');
+      expect(targetRecordWrapper[1].currentRecord.formFieldPath)
+        .to.equal('Vitals.2/1-1');
+    });
+  });
 });

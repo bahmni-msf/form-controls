@@ -42,13 +42,12 @@ export default class FormContext {
   }
 
   getAll(name) {
-    const records = this.find(this.parentRecord, name);
+    const records = this.find(this.parentRecord || this.rootRecord, name);
       if (!records) {
           const message = `name[${name}]`;
           /* eslint-disable */
           console.warn(`[FormEventHandler] Control with ${message} is not exist`);
       }
-      // return records.map(record => new ControlRecordWrapper(this.rootRecord).set(record))
       return records.map(record => this.wrapper.set(record))
 
   }
