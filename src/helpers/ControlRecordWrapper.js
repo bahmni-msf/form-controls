@@ -1,5 +1,4 @@
 import ControlRecordTreeMgr from './ControlRecordTreeMgr';
-import { executeEventsFromCurrentRecord } from '../helpers/ExecuteEvents';
 
 export default class ControlRecordWrapper {
 
@@ -13,8 +12,7 @@ export default class ControlRecordWrapper {
   }
 
   update(updatedRecord) {
-    let currentRecord = this.set(this.updateNode(updatedRecord)).currentRecord;
-    currentRecord = executeEventsFromCurrentRecord(currentRecord);
+    const currentRecord = this.set(this.updateNode(updatedRecord)).currentRecord;
     this.rootRecord = ControlRecordTreeMgr.update(this.rootRecord, currentRecord);
   }
 
@@ -70,6 +68,7 @@ export default class ControlRecordWrapper {
 
   setHidden(hidden) {
     const brotherTrees = ControlRecordTreeMgr.getBrothers(this.rootRecord, this.currentRecord);
+
     brotherTrees.forEach(r => {
       const updatedRecord = r.set('hidden', hidden);
       this.update(updatedRecord);
