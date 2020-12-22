@@ -21,7 +21,7 @@
     "bump-up": "npm version patch -m 'Bumped to version %s'",
     "watch": "webpack --watch --config webpack.dev.config.js"
   },
-  "author": "bahmni@thoughtworks.com",
+  "author": "twocpbahmni@thoughtworks.com",
   "devDependencies": {
     "@kadira/storybook": "^2.21.0",
     "@kadira/storybook-deployer": "^1.2.0",
