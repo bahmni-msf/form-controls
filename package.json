@@ -1,5 +1,5 @@
 {
-  "name": "bahmni-form-controls-dwb",
+  "name": "bahmni-form-controls-msf",
   "version": "0.93.1",
   "description": "Repository for form controls",
   "license": "GPL-2.0",
@@ -89,5 +89,12 @@
     "react-textarea-autosize": "^4.0.5",
     "sinon-as-promised": "^4.0.3",
     "whatwg-fetch": "^1.0.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmni-msf/form-controls.git"
   }
 }
