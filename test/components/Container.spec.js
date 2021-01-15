@@ -411,6 +411,7 @@ describe('Container', () => {
           />
         );
         wrapper.setState({ data: obsTree });
+        wrapper.instance().updatedControlRecordTree = obsTree;
         wrapper.instance().onControlAdd(addedFormFieldPath, false);
 
         expect(wrapper.find('NotificationContainer').props().notification).to.eql({});
