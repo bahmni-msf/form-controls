@@ -1,4 +1,4 @@
-'use strict';
+use strict';
 
 let path = require('path');
 let webpack = require('webpack');
@@ -19,13 +19,7 @@ module.exports = {
   externals: {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
-    'react/addons': true,
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react'
-    }
+    'react/addons': true
   },
   module: {
     loaders: [
