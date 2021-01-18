@@ -11,7 +11,6 @@ import NotificationContainer from '../helpers/Notification';
 import Constants from '../constants';
 import { IntlProvider } from 'react-intl';
 import { executeEventsFromCurrentRecord } from '../helpers/ExecuteEvents';
-import { Util } from '../helpers/Util';
 
 export class Container extends addMoreDecorator(Component) {
   constructor(props) {
@@ -77,21 +76,15 @@ export class Container extends addMoreDecorator(Component) {
     return (`A new ${name} ${type} has been added`);
   }
 
-  nextFormFieldPathAlreadyExistsInControlRecordTree(controlRecordTree, formFieldPath) {
-    const getPrefix = () =>
-      formFieldPath.substring(0, formFieldPath.lastIndexOf('-'));
-    const getSuffix = () =>
-      Util.increment(formFieldPath.substring(formFieldPath.lastIndexOf('-') + 1));
-    const nextFormFieldPath = getPrefix().concat('-', getSuffix());
-    if (new ControlRecordTreeMgr().findParentTree(controlRecordTree,
-      nextFormFieldPath) !== undefined) {
-      return true;
-    }
-    return false;
+  canAddNextFormFieldPath(controlRecordTree, formFieldPath) {
+    const latestBrotherTree = new ControlRecordTreeMgr()
+      .getLatestBrotherTree(controlRecordTree, formFieldPath);
+    const latestFormFieldPath = latestBrotherTree ? latestBrotherTree.formFieldPath : '';
+    return formFieldPath === latestFormFieldPath;
   }
 
   onControlAdd(formFieldPath, isNotificationShown = true) {
-    if (!isNotificationShown && this.nextFormFieldPathAlreadyExistsInControlRecordTree(
+    if (!isNotificationShown && !this.canAddNextFormFieldPath(
       this.updatedControlRecordTree, formFieldPath)) {
       return;
     }
