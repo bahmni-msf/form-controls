@@ -87,7 +87,7 @@ describe('Container', () => {
     };
 
     const formFieldPath = 'SingleObs.1/1-0';
-    const newFormFieldPath = 'SingleObs.1/1-1';
+    const addedFormFieldPath = 'SingleObs.1/1-1';
     const dataSource = immutableMap({
       concept: {
         conceptClass: 'Misc',
@@ -176,7 +176,7 @@ describe('Container', () => {
         type: 'obsControl',
         units: '/min',
       },
-      formFieldPath: newFormFieldPath,
+      formFieldPath: addedFormFieldPath,
       value: { value: '1', comment: undefined },
       dataSource,
     });
