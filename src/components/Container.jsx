@@ -65,7 +65,14 @@ export class Container extends addMoreDecorator(Component) {
       ...previousState,
       data: previousState.data.update(formFieldPath, value, errors),
       collapse: undefined,
-    }), onActionDone);
+    }), () => { onActionDone(); this.onValueUpdated(); });
+  }
+
+  onValueUpdated() {
+    const onValueUpdatedFn = this.props.onValueUpdated || null;
+    if (onValueUpdatedFn) {
+      this.props.onValueUpdated(this.state.data);
+    }
   }
 
 
@@ -207,5 +214,6 @@ Container.propTypes = {
   translations: PropTypes.object.isRequired,
   validate: PropTypes.bool.isRequired,
   validateForm: PropTypes.bool.isRequired,
+  onValueUpdated: PropTypes.func,
 };
 
