@@ -13,13 +13,18 @@ export function getKeyPrefixForControl(formName, formVersion, controlId, parentF
     formFieldPath,
   };
 }
+
+function checkRegex(lastItem, formFieldPath) {
+  if (!/\d+-\d+/.test(lastItem)) {
+    return undefined;
+  } return formFieldPath;
+}
+
 function validateFormFieldPath(formFieldPath) {
   const path = formFieldPath.split('/');
   let lastItem;
   if (path && path.length > 1) { lastItem = path.pop();}
-  if (!/\d+-\d+/.test(lastItem)) {
-    return undefined;
-  } return formFieldPath;
+  return checkRegex(lastItem, formFieldPath);
 }
 
 export function createFormNamespaceAndPath(formName, formVersion, controlId, parentFormFieldPath) {
