@@ -43,7 +43,7 @@ export default class ControlRecordWrapper {
     brotherTrees.forEach(r => {
       const updatedRecord = r.set('value', {
         value: r.setValue(value),
-        comment: this.currentRecord.comment,
+        comment: this.currentRecord.value.comment,
       });
       this.update(updatedRecord);
     });
