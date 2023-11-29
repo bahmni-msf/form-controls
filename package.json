@@ -90,6 +90,9 @@
     "sinon-as-promised": "^4.0.3",
     "whatwg-fetch": "^1.0.0"
   },
+  "overrides": {
+    "readable-stream": "2.4.5"
+  },
   "directories": {
     "test": "test"
   },
