@@ -91,7 +91,13 @@ export class NumericBox extends Component {
       minAbsolute: this.props.lowAbsolute,
       maxAbsolute: this.props.hiAbsolute,
     };
-    const controlDetails = { validations, value, params };
+    const controlDetails = {
+      validations,
+      value,
+      params,
+      hidden: this.props.hidden,
+      enabled: this.props.enabled,
+    };
     return Validator.getErrors(controlDetails);
   }
 

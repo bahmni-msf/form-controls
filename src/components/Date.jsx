@@ -66,7 +66,12 @@ export class Date extends Component {
 
   _getErrors(value) {
     const validations = this.props.validations;
-    const controlDetails = { validations, value };
+    const controlDetails = {
+      validations,
+      value,
+      hidden: this.props.hidden,
+      enabled: this.props.enabled,
+    };
     return Validator.getErrors(controlDetails);
   }
 

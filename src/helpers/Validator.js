@@ -13,8 +13,13 @@ export class Validator {
     return true;
   }
 
-  static mandatory(obsValue) {
-    if (this.nonEmpty(obsValue)) return undefined;
+  static mandatory(obsValue, hidden, enabled) {
+    if (hidden === true || enabled === false) {
+      return undefined;
+    }
+    if (this.nonEmpty(obsValue)) {
+      return undefined;
+    }
     return new Error({ message: constants.validations.mandatory });
   }
 
@@ -62,10 +67,10 @@ export class Validator {
   }
 
   static getErrors(controlDetails) {
-    const { validations, value, params } = controlDetails;
+    const { validations, value, params, hidden, enabled } = controlDetails;
     const errors = map(validations, (propertyName) => {
       const validator = get(this.propertyValidators, propertyName);
-      if (validator) return validator(value, params);
+      if (validator) return validator(value, params, hidden, enabled);
       return undefined;
     });
 
@@ -75,7 +80,7 @@ export class Validator {
 
 Validator.propertyValidators = {
   [constants.validations.mandatory]:
-    (obsVal) => Validator.mandatory(obsVal),
+    (obsVal, params, hidden, enabled) => Validator.mandatory(obsVal, hidden, enabled),
   [constants.validations.allowDecimal]:
       (obsVal) => Validator.allowDecimal(obsVal),
   [constants.validations.allowRange]:
